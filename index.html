@@ -189,44 +189,6 @@
 <!--  -->
 
 
-  <article id="post-algorithm" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2019-09-09T03:42:44.000Z"><a href="/2019/09/09/algorithm/">2019-09-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/09/09/algorithm/">算法刷题-leeocde、offer等</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <p>题目：</p>
-<ul>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/leecode/catalogue.md" target="_blank" rel="noopener">leecode题目</a></li>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/offer/catalogue.md" target="_blank" rel="noopener">剑指offer</a></li>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/basic/catalogue.md" target="_blank" rel="noopener">基础算法</a></li>
-</ul>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
   <article id="post-database" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
@@ -291,17 +253,106 @@
 <!--  -->
 
 
+  <article id="post-秒杀系统" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-02-22T23:35:11.000Z"><a href="/2019/02/23/秒杀系统/">2019-02-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/02/23/秒杀系统/">秒杀系统分析</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1><span id="miao-sha-xi-tong-fen-xi">秒杀系统分析</span><a href="#miao-sha-xi-tong-fen-xi" class="header-anchor">#</a></h1><p>在网络场景中，有很多经典的场景。其中秒杀就是经典场景之一。  </p>
+<h2><span id="1-miao-sha-chang-jing-xia-mian-lin-de-wen-ti">1.秒杀场景下面临的问题</span><a href="#1-miao-sha-chang-jing-xia-mian-lin-de-wen-ti" class="header-anchor">#</a></h2><ul>
+<li><p>1.短时间内高并发</p>
+</li>
+<li><p>2.超卖问题</p>
+</li>
+<li><p>3.接口防刷</p>
+</li>
+<li><p>4.秒杀的url</p>
+</li>
+</ul>
+<p>对于普通的用户来说，未到达秒杀时间，页面的秒杀按钮是灰色的。等到秒杀时间，灰色按钮变成可点击状态。但是对于<strong>同行或者有一定基础的用户</strong>，可以通过查看浏览器的network看到秒杀url，或者提前知道秒杀url的人，一请求这个url就直接实现秒杀了。这个问题需要亟待解决！！  </p>
+<ul>
+<li><p>4.数据库设计</p>
+</li>
+<li><p>5.异步刷入数据库</p>
+</li>
+</ul>
+<h2><span id="2-miao-sha-xi-tong-de-she-ji-yu-jie-jue-fang-an">2.秒杀系统的设计与解决方案</span><a href="#2-miao-sha-xi-tong-de-she-ji-yu-jie-jue-fang-an" class="header-anchor">#</a></h2><p>面对上述问题，解决方案</p>
+<h3><span id="2-1-miao-sha-xi-tong-de-shu-ju-ku-she-ji">2.1 秒杀系统的数据库设计</span><a href="#2-1-miao-sha-xi-tong-de-shu-ju-ku-she-ji" class="header-anchor">#</a></h3><h3><span id="2-2">2.2</span><a href="#2-2" class="header-anchor">#</a></h3>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-algorithm" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2016-09-09T03:42:44.000Z"><a href="/2016/09/09/algorithm/">2016-09-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/09/09/algorithm/">算法刷题-leeocde、offer等</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>题目：</p>
+<ul>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/leecode/catalogue.md" target="_blank" rel="noopener">leecode题目</a></li>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/offer/catalogue.md" target="_blank" rel="noopener">剑指offer</a></li>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/basic/catalogue.md" target="_blank" rel="noopener">基础算法</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
   <article id="post-start-today" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2019-01-08T13:36:35.000Z"><a href="/2019/01/08/start-today/">2019-01-08</a></time>
+        <time class="dt-published" datetime="2016-01-08T13:36:35.000Z"><a href="/2016/01/08/start-today/">2016-01-08</a></time>
       
       
   
-    <h1 class="title"><a href="/2019/01/08/start-today/">开始|第一天</a></h1>
+    <h1 class="title"><a href="/2016/01/08/start-today/">开始|第一天</a></h1>
   
 
     </header>
@@ -352,9 +403,13 @@
   
     <li><a href="/categories/架构/">架构</a><small>3</small></li>
   
-    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+    <li><a href="/categories/算法/秒杀系统/">秒杀系统</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>2</small></li>
   
     <li><a href="/categories/网络/">网络</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/秒杀系统/高并发/">高并发</a><small>1</small></li>
   
   </ul>
 </div>
@@ -373,7 +428,7 @@
   
     <li><a href="/tags/数据库/">数据库</a><small>1</small></li>
   
-    <li><a href="/tags/架构/">架构</a><small>2</small></li>
+    <li><a href="/tags/架构/">架构</a><small>3</small></li>
   
     <li><a href="/tags/算法/">算法</a><small>1</small></li>
   
