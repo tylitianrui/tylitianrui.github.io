@@ -3,13 +3,16 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>tyltr技术窝</title>
+  <title>nginx入门之平滑升级 | tyltr技术窝</title>
   <meta name="author" content="tylitianrui">
+  
+  <meta name="description" content="把服务器从低版本升级到高版本，强行停止服务器，会影响正在运行的进程，对用户的体验页非常差。所以需要平滑升级。什么是平滑升级呢？平滑升级就是在不停掉正在运行的进程，不会停止服务。在平滑升级的过程中，新开的进程也会被处理。  
+在现实情况下，nginx在能满足现状的时候，一般不会升级nginx的版本。也">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="nginx入门之平滑升级">
   <meta property="og:site_name" content="tyltr技术窝">
 
   
@@ -57,219 +60,7 @@
 <div class="clearfix"></div>
 </header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-  <article id="post-秒杀系统" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2019-02-22T23:35:11.000Z"><a href="/2019/02/23/秒杀系统/">2019-02-23</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/02/23/秒杀系统/">秒杀系统分析</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h1><span id="miao-sha-xi-tong-fen-xi">秒杀系统分析</span><a href="#miao-sha-xi-tong-fen-xi" class="header-anchor">#</a></h1><p>在网络场景中，有很多经典的场景。其中秒杀就是经典场景之一。  </p>
-<h2><span id="1-miao-sha-chang-jing-xia-mian-lin-de-wen-ti">1.秒杀场景下面临的问题</span><a href="#1-miao-sha-chang-jing-xia-mian-lin-de-wen-ti" class="header-anchor">#</a></h2><ul>
-<li><p>1.短时间内高并发</p>
-</li>
-<li><p>2.超卖问题</p>
-</li>
-<li><p>3.接口防刷</p>
-</li>
-<li><p>4.秒杀的url</p>
-</li>
-</ul>
-<p>对于普通的用户来说，未到达秒杀时间，页面的秒杀按钮是灰色的。等到秒杀时间，灰色按钮变成可点击状态。但是对于<strong>同行或者有一定基础的用户</strong>，可以通过查看浏览器的network看到秒杀url，或者提前知道秒杀url的人，一请求这个url就直接实现秒杀了。这个问题需要亟待解决！！  </p>
-<ul>
-<li><p>4.数据库设计</p>
-</li>
-<li><p>5.异步刷入数据库</p>
-</li>
-</ul>
-<h2><span id="2-miao-sha-xi-tong-de-she-ji-yu-jie-jue-fang-an">2.秒杀系统的设计与解决方案</span><a href="#2-miao-sha-xi-tong-de-she-ji-yu-jie-jue-fang-an" class="header-anchor">#</a></h2><p>面对上述问题，解决方案</p>
-<h3><span id="2-1-miao-sha-xi-tong-de-shu-ju-ku-she-ji">2.1 秒杀系统的数据库设计</span><a href="#2-1-miao-sha-xi-tong-de-shu-ju-ku-she-ji" class="header-anchor">#</a></h3><h3><span id="2-2">2.2</span><a href="#2-2" class="header-anchor">#</a></h3>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-linux中的socket" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2018-09-09T04:23:25.000Z"><a href="/2018/09/09/linux中的socket/">2018-09-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2018/09/09/linux中的socket/">linux中的socket</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-golang之defer解析" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2018-04-11T16:19:22.000Z"><a href="/2018/04/12/golang之defer解析/">2018-04-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2018/04/12/golang之defer解析/">golang之defer解析</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-0001缓存中的“坑”之缓存穿透" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2018-03-27T05:43:32.000Z"><a href="/2018/03/27/0001缓存中的“坑”之缓存穿透/">2018-03-27</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2018/03/27/0001缓存中的“坑”之缓存穿透/">缓存中的“坑”之缓存穿透</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h1><span id="cun-zhong-de-keng-zhi-huan-cun-chuan-tou">存中的“坑”之缓存穿透</span><a href="#cun-zhong-de-keng-zhi-huan-cun-chuan-tou" class="header-anchor">#</a></h1>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-0002缓存中的“坑”之缓存击穿" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2018-03-23T14:08:35.000Z"><a href="/2018/03/23/0002缓存中的“坑”之缓存击穿/">2018-03-23</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2018/03/23/0002缓存中的“坑”之缓存击穿/">缓存中的“坑”之缓存击穿</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h1><span id="huan-cun-zhong-de-keng-zhi-huan-cun-ji-chuan">缓存中的“坑”之缓存击穿</span><a href="#huan-cun-zhong-de-keng-zhi-huan-cun-ji-chuan" class="header-anchor">#</a></h1>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-database" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2017-09-09T03:40:55.000Z"><a href="/2017/09/09/database/">2017-09-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/09/09/database/">InnoDB特性之change buffer</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-nginx实战总结0002" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-nginx实战总结0002" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
@@ -279,7 +70,7 @@
       
       
   
-    <h1 class="title"><a href="/2017/05/24/nginx实战总结0002/">nginx入门之平滑升级</a></h1>
+    <h1 class="p-name title" itemprop="headline name">nginx入门之平滑升级</h1>
   
 
     </header>
@@ -333,6 +124,17 @@ WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体�
     <footer>
       
         
+  
+  <div class="categories">
+    <a href="/categories/架构/">架构</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/架构/">架构</a>, <a href="/tags/nginx实战总结/">nginx实战总结</a>, <a href="/tags/nginx/">nginx</a>, <a href="/tags/平滑升级/">平滑升级</a>
+  </div>
+
         
       
       <div class="clearfix"></div>
@@ -340,125 +142,14 @@ WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体�
   </div>
 </article>
 
-<!--  -->
+<!-- 
+<section id="comment">
+  <h1 class="title">留言</h1>
 
-
-  <article id="post-nginx实战总结0001" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2017-05-01T22:29:05.000Z"><a href="/2017/05/02/nginx实战总结0001/">2017-05-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/05/02/nginx实战总结0001/">nginx入门之负载均衡</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-nginx实战总结0000" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2017-04-20T03:29:05.000Z"><a href="/2017/04/20/nginx实战总结0000/">2017-04-20</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/04/20/nginx实战总结0000/">nginx实战总结</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <h2><span id="di-yi-zhang-ru-men">第一章：入门</span><a href="#di-yi-zhang-ru-men" class="header-anchor">#</a></h2><ul>
-<li>1.1 <a href="../../../../2017/05/02/nginx实战总结0001/index.html">nginx入门之负载均衡</a>  </li>
-<li>1.2 <a href="../../../../2017/05/24/nginx实战总结0002/index.html">nginx入门之平滑升级</a>  </li>
-</ul>
-<h2><span id="di-er-zhang-shen-ru-li-jie">第二章：深入理解</span><a href="#di-er-zhang-shen-ru-li-jie" class="header-anchor">#</a></h2><p>pass  </p>
-<h2><span id="di-san-zhang-an-li-fen-xi">第三章：案例分析</span><a href="#di-san-zhang-an-li-fen-xi" class="header-anchor">#</a></h2><p>pass</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-  <article id="post-algorithm" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2016-09-09T03:42:44.000Z"><a href="/2016/09/09/algorithm/">2016-09-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/09/09/algorithm/">算法刷题-leeocde、offer等</a></h1>
-  
-
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
-      
-        <p>题目：</p>
-<ul>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/leecode/catalogue.md" target="_blank" rel="noopener">leecode题目</a></li>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/offer/catalogue.md" target="_blank" rel="noopener">剑指offer</a></li>
-<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/basic/catalogue.md" target="_blank" rel="noopener">基础算法</a></li>
-</ul>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-<!--  -->
-
-
-
-<nav id="pagination">
-  
-  
-    <a href="/page/2/" class="alignright next">下一页</a>
-  
-  <div class="clearfix"></div>
-</nav></div></div>
+</section>
+ -->
+</div></div>
     <aside id="sidebar" class="alignright">
   
 <div class="widget tag">
