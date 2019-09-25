@@ -58,17 +58,233 @@
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-  <article id="post-py" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <article id="post-nginx实战总结0003" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2015-09-21T04:22:32.000Z"><a href="/2015/09/21/py/">2015-09-21</a></time>
+        <time class="dt-published" datetime="2017-05-02T15:43:29.000Z"><a href="/2017/05/02/nginx实战总结0003/">2017-05-02</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/09/21/py/">python的内存管理机制</a></h1>
+    <h1 class="title"><a href="/2017/05/02/nginx实战总结0003/">nginx入门之平滑升级</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>把服务器从低版本升级到高版本，强行停止服务器，会影响正在运行的进程，对用户的体验页非常差。所以需要<strong>平滑升级</strong>。什么是平滑升级呢？平滑升级就是在不停掉正在运行的进程，不会停止服务。在平滑升级的过程中，新开的进程也会被处理。  </p>
+<p>在现实情况下，nginx在能满足现状的时候，一般不会升级nginx的版本。也就是说，<strong>你如果升级了nginx的话，你面临的一些棘手的问题必须能解决掉</strong>，不能为了升级而升级。<br>如果你有nginx的基础，可以跳过第1节 第 2节，直接看第三节即可。  </p>
+<h2><span id="1-nginx-de-ji-ben-ming-ling">1. nginx的基本命令</span><a href="#1-nginx-de-ji-ben-ming-ling" class="header-anchor">#</a></h2><h4><span id="1-1-qi-dong-nginx">1.1 启动nginx</span><a href="#1-1-qi-dong-nginx" class="header-anchor">#</a></h4><p><strong>nginx -c /path/to/nginx.conf</strong><br>说明：nginx  -c nginx的配置文件</p>
+<p>在启动nginx的时候，也可以先检测配置文件，是否正确。检测通过后在进行启动,命令如下：<br>*<em>nginx  -t  -c /path/to/nginx.conf *</em></p>
+<h4><span id="1-2-guan-bi-nginx">1.2 关闭nginx</span><a href="#1-2-guan-bi-nginx" class="header-anchor">#</a></h4><p>在关闭nginx的时候，有两种方式：一种是强制关闭，一种是优雅的关闭  </p>
+<ul>
+<li>强制退出    <strong>nginx -s stop</strong>  直接关闭nginx，不管是否正在处理请求</li>
+<li>优雅的退出   <strong>nginx -s quit</strong>   等待请求处理完毕，再关闭nginx</li>
+</ul>
+<h4><span id="1-3-chong-qi-nginx">1.3 重启nginx</span><a href="#1-3-chong-qi-nginx" class="header-anchor">#</a></h4><p><strong>nginx -s reload</strong>  </p>
+<p>既然是重启，就意味着当前的nginx正在运行状态。如果当前nginx不是运行状态，那么执行重启的命令，会报错。  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [error] open() "/run/nginx.pid" failed (2: No such file or directory)</span><br></pre></td></tr></table></figure>
+
+<h2><span id="2-xin-hao-kong-zhi">2.信号控制</span><a href="#2-xin-hao-kong-zhi" class="header-anchor">#</a></h2><h3><span id="2-1-xin-hao-lei-xing">2.1 信号类型</span><a href="#2-1-xin-hao-lei-xing" class="header-anchor">#</a></h3><pre><code>INT     快速关闭信号   
+QUIT     优雅的关闭信号    
+HUP      从容的重启信号，一般用于修改配置文件后，重启  
+USR1   重读日志，一般用于日志切割  
+USR2  平滑升级信号  
+WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体用法：</span><a href="#ju-ti-yong-fa" class="header-anchor">#</a></h5><p>  kill  -信号类型    nginx的主进程PID   </p>
+<h5><span id="li-ru">例如</span><a href="#li-ru" class="header-anchor">#</a></h5><p>kill -INT  26234<br>kill  -HUP  3267</p>
+<h2><span id="3-ping-hua-sheng-ji">3.平滑升级</span><a href="#3-ping-hua-sheng-ji" class="header-anchor">#</a></h2><p>上面1,2的简述是为此节提供基础，下面是平滑升级的过程。  </p>
+<ul>
+<li><p>1.下载nginx<br><a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">官方下载</a>，选取适合的版本，解压    </p>
+</li>
+<li><p>2.编译nginx<br>进入nginx解压目录  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./configure  </span><br><span class="line"><span class="meta">#</span> 不能执行make install  </span><br><span class="line">make   </span><br><span class="line"><span class="meta">#</span> 此目录objs下，就是编译出的高版本nginx</span><br><span class="line">cd  objs</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.备份原有版本的nginx<br>进入原有版本的nginx，例如ubuntu中(apt安装) 二进制文件 /usr/sbin/nginx   </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp nginx   nginx.old</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.使用高版本nginx覆盖低版本nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -rfp  objs/nginx   /usr/sbin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5.执行平滑升级的信号 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /run/nginx.pid`</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>说明： kill  -USR2    nginx主进程PID<br>执行完这一句后，新旧俩个版本并存。都有worker 和master<br>-6. 关闭旧版本NGINX的worker进程<br>    kill -WINCH  旧版本的master的pid  </p>
+<p>优雅的关闭旧版本的worker会优雅的关闭。但是虽然worker已经关闭，但是旧进程的监听socket没有停止。旧版本的master进程依旧在运行  </p>
+<p>-7. 关闭旧版本nginx主进程<br>    kill  -QUIT  旧版本nginx主进程PID</p>
+<h2><span id="4-bei-zhu">4.备注</span><a href="#4-bei-zhu" class="header-anchor">#</a></h2><p>ubuntu中nginx的目录<br>    /usr/sbin/nginx     二进制主程序<br>    /etc/nginx   存放配置文件<br>    /usr/share/nginx   存放静态文件<br>    /var/log/nginx  存放日志</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-nginx实战总结0002" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-04-21T14:55:28.000Z"><a href="/2017/04/21/nginx实战总结0002/">2017-04-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/04/21/nginx实战总结0002/">nginx入门之配置优化</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-nginx实战总结0000" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-04-20T03:29:05.000Z"><a href="/2017/04/20/nginx实战总结0000/">2017-04-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/04/20/nginx实战总结0000/">nginx实战总结</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2><span id="di-yi-zhang-ru-men">第一章：入门</span><a href="#di-yi-zhang-ru-men" class="header-anchor">#</a></h2><ul>
+<li>1.1 <a href="../../../../2017/04/12/nginx实战总结0001/index.html">nginx入门之配置文件</a>  </li>
+<li>1.2 <a href="../../../../2017/04/21/nginx实战总结0002/index.html">nginx入门之配置优化</a>  </li>
+<li>1.3 <a href="../../../../2017/05/02/nginx实战总结0003/index.html">nginx入门之平滑升级</a>  </li>
+<li>1.4 <a href="../../../../2017/05/21/nginx实战总结0004/index.html">nginx入门之负载均衡</a>  </li>
+</ul>
+<h2><span id="di-er-zhang-shen-ru-li-jie">第二章：深入理解</span><a href="#di-er-zhang-shen-ru-li-jie" class="header-anchor">#</a></h2><p>pass  </p>
+<h2><span id="di-san-zhang-an-li-fen-xi">第三章：案例分析</span><a href="#di-san-zhang-an-li-fen-xi" class="header-anchor">#</a></h2><p>pass</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-nginx实战总结0001" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-04-12T05:53:59.000Z"><a href="/2017/04/12/nginx实战总结0001/">2017-04-12</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/04/12/nginx实战总结0001/">nginx入门之配置文件</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-算法" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2016-09-09T03:42:44.000Z"><a href="/2016/09/09/算法/">2016-09-09</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/09/09/算法/">算法刷题-leeocde、offer等</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>题目：</p>
+<ul>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/leecode/catalogue.md" target="_blank" rel="noopener">leecode题目</a></li>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/offer/catalogue.md" target="_blank" rel="noopener">剑指offer</a></li>
+<li><a href="https://github.com/tylitianrui/algorithm/blob/master/doc/basic/catalogue.md" target="_blank" rel="noopener">基础算法</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!--  -->
+
+
+  <article id="post-python的内存管理机制" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-09-21T04:22:32.000Z"><a href="/2015/09/21/python的内存管理机制/">2015-09-21</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/09/21/python的内存管理机制/">python的内存管理机制</a></h1>
   
 
     </header>
@@ -137,13 +353,13 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/golang/">golang</a><small>1</small></li>
+    <li><a href="/categories/golang/">golang</a><small>3</small></li>
   
     <li><a href="/categories/python/">python</a><small>1</small></li>
   
     <li><a href="/categories/数据库/">数据库</a><small>1</small></li>
   
-    <li><a href="/categories/架构/">架构</a><small>7</small></li>
+    <li><a href="/categories/架构/">架构</a><small>9</small></li>
   
     <li><a href="/categories/算法/">算法</a><small>1</small></li>
   
@@ -162,23 +378,33 @@
   
     <li><a href="/tags/InnoDB/">InnoDB</a><small>1</small></li>
   
+    <li><a href="/tags/MPG/">MPG</a><small>1</small></li>
+  
     <li><a href="/tags/TCP/">TCP</a><small>1</small></li>
   
     <li><a href="/tags/change-buffer/">change buffer</a><small>1</small></li>
   
     <li><a href="/tags/defer/">defer</a><small>1</small></li>
   
-    <li><a href="/tags/golang/">golang</a><small>1</small></li>
+    <li><a href="/tags/golang/">golang</a><small>3</small></li>
+  
+    <li><a href="/tags/goroutine/">goroutine</a><small>1</small></li>
   
     <li><a href="/tags/leecode/">leecode</a><small>1</small></li>
   
-    <li><a href="/tags/nginx/">nginx</a><small>3</small></li>
+    <li><a href="/tags/nginx/">nginx</a><small>4</small></li>
   
-    <li><a href="/tags/nginx实战总结/">nginx实战总结</a><small>3</small></li>
+    <li><a href="/tags/nginx-conf/">nginx.conf</a><small>2</small></li>
+  
+    <li><a href="/tags/nginx优化/">nginx优化</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx实战总结/">nginx实战总结</a><small>5</small></li>
   
     <li><a href="/tags/python/">python</a><small>1</small></li>
   
     <li><a href="/tags/socket/">socket</a><small>1</small></li>
+  
+    <li><a href="/tags/内存对齐/">内存对齐</a><small>1</small></li>
   
     <li><a href="/tags/内存管理/">内存管理</a><small>1</small></li>
   
@@ -192,7 +418,7 @@
   
     <li><a href="/tags/数据库/">数据库</a><small>1</small></li>
   
-    <li><a href="/tags/架构/">架构</a><small>6</small></li>
+    <li><a href="/tags/架构/">架构</a><small>8</small></li>
   
     <li><a href="/tags/秒杀系统/">秒杀系统</a><small>1</small></li>
   
@@ -210,7 +436,11 @@
   
     <li><a href="/tags/记忆/">记忆</a><small>1</small></li>
   
+    <li><a href="/tags/调度/">调度</a><small>1</small></li>
+  
     <li><a href="/tags/负载均衡/">负载均衡</a><small>1</small></li>
+  
+    <li><a href="/tags/配置文件/">配置文件</a><small>2</small></li>
   
     <li><a href="/tags/高并发/">高并发</a><small>2</small></li>
   
