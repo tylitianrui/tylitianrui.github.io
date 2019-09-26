@@ -369,12 +369,38 @@
 
 <p>在<code>nginx</code>目录下，新建 <code>lua</code>目录，并且在 <code>lua</code>目录中创建 <code>hello.lua</code>   </p>
 <blockquote>
-<p>nginx</p>
-<p>├── conf<br>│   ├── fastcgi.conf<br>│   ├── fastcgi.conf.default<br>│   ├── fastcgi_params<br>│   ├── fastcgi_params.default<br>│   ├── koi-utf<br>│   ├── koi-win<br>│   ├── mime.types<br>│   ├── mime.types.default<br>│   ├── nginx.conf<br>│   ├── nginx.conf.default<br>│   ├── scgi_params<br>│   ├── scgi_params.default<br>│   ├── uwsgi_params<br>│   ├── uwsgi_params.default<br>│   └── win-utf</p>
-<p>├── logs<br>│   ├── access.log<br>│   ├── error.log<br>│   └── nginx.pid<br>├── lua<br>│   └── hello.lua</p>
-<p>│</p>
-<p>……..</p>
 </blockquote>
+<p>nginx  </p>
+<ul>
+<li>conf  <ul>
+<li>fastcgi.conf  </li>
+<li>fastcgi.conf.default  </li>
+<li>fastcgi_params    </li>
+<li>fastcgi_params.default  </li>
+<li>koi-utf  </li>
+<li>koi-win  </li>
+<li>mime.types  </li>
+<li>mime.types.default  </li>
+<li>nginx.conf  </li>
+<li>nginx.conf.default  </li>
+<li>scgi_params  </li>
+<li>scgi_params.default  </li>
+<li>uwsgi_params  </li>
+<li>uwsgi_params.default  </li>
+<li>win-utf  </li>
+</ul>
+</li>
+<li>logs  <ul>
+<li>access.log  </li>
+<li>error.log  </li>
+<li>nginx.pid  </li>
+</ul>
+</li>
+<li>lua  <ul>
+<li>hello.lua<br>……..  </li>
+</ul>
+</li>
+</ul>
 <p>配置文件修改了，需要重新加载。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo  /opt/openresty/nginx/sbin/nginx -c  /opt/openresty/nginx/conf/nginx.conf -p /opt/openresty/nginx   -s  reload</span><br></pre></td></tr></table></figure>
 
