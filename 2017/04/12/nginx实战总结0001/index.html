@@ -6,6 +6,15 @@
   <title>nginx入门之配置文件 | tyltr技术窝</title>
   <meta name="author" content="tylitianrui">
   
+  <meta name="description" content="nginx主要分为四部分：
+
+nginx               二进制文件
+nginx配置文件 nginx.conf等
+access.log      接入日志
+error.log       错误日志
+
+配置文件控住nginx的行为，一般情况下，linux默认的配置文件的路径为 /etc/n">
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,7 +82,82 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        
+        <p>nginx主要分为四部分：</p>
+<ul>
+<li>nginx               二进制文件</li>
+<li>nginx配置文件 nginx.conf等</li>
+<li>access.log      接入日志</li>
+<li>error.log       错误日志</li>
+</ul>
+<p>配置文件控住nginx的行为，一般情况下，linux默认的配置文件的路径为 <code>/etc/nginx/nginx.conf</code>  <em>注：在不同的系统中，配置文件的路径可能会不同</em></p>
+<h2><span id="1-pei-zhi-wen-jian-shuo-ming">1. 配置文件说明</span><a href="#1-pei-zhi-wen-jian-shuo-ming" class="header-anchor">#</a></h2><h3><span id="1-1-nginx-conf-wen-jian">1.1 <code>nginx.conf</code>文件</span><a href="#1-1-nginx-conf-wen-jian" class="header-anchor">#</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#user  nobody;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------- worker_processes --------------start</span><br><span class="line"># nginx是master-worker结构，指定worker的数量。一般设置为cup数量，性能最优</span><br><span class="line"># 如果4核cup，建议设置 worker_processes  4;</span><br><span class="line">worker_processes  1;</span><br><span class="line">#----------- worker_processes --------------end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#----------- error_log --------------start</span><br><span class="line"># error_log 指定错误日志的路径。</span><br><span class="line"># 语法：error_log file [level]; </span><br><span class="line"># 默认：error_log logs/error.log error;</span><br><span class="line"># 日志等级：debug, info, notice, warn, error, crit, alert, emerg </span><br><span class="line"># error等级的日志，包含error ,crit, alert, emerg 即包含error。其他的等级也一样</span><br><span class="line"># -------------error_log -------------end</span><br><span class="line"></span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># pid 指定 pid文件 </span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">		# -------------worker_connections -------------start</span><br><span class="line">		# worker_connections 每个worker进程，能并发处理（发起）的最大连接数</span><br><span class="line">		# 系统为每个tcp链接创建一个socket句柄，每个socket句柄就是一个文件句柄</span><br><span class="line">		# 即每个worker可以打开的文件句柄限制</span><br><span class="line">		# 可以通过 ulimit -n 查看每个进程最多打开的文件数限制</span><br><span class="line">		# 可使用 ulimit -n &lt;file_num&gt;  进行修改</span><br><span class="line">		# -------------worker_connections -------------end</span><br><span class="line">		worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">		# -------------log_format -------------start				</span><br><span class="line">		# log_format 说明</span><br><span class="line">		# log 日志的格式</span><br><span class="line">		# -------------log_format -------------end</span><br><span class="line"></span><br><span class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line">	#---------------server 可以写在其他文件目录中-----------------------------</span><br><span class="line">	# server upstream 块，用户配置修改频率高于其他的块</span><br><span class="line">	# 在文件中进行引入</span><br><span class="line">	#---------------server 可以写在其他文件目录中-----------------------------</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    proxy_pass   http://127.0.0.1;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    root           html;</span><br><span class="line">        #    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        #    fastcgi_index  index.php;</span><br><span class="line">        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span><br><span class="line">        #    include        fastcgi_params;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # deny access to .htaccess files, if Apache&apos;s document root</span><br><span class="line">        # concurs with nginx&apos;s one</span><br><span class="line">        #</span><br><span class="line">        #location ~ /\.ht &#123;</span><br><span class="line">        #    deny  all;</span><br><span class="line">        #&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       8000;</span><br><span class="line">    #    listen       somename:8080;</span><br><span class="line">    #    server_name  somename  alias  another.alias;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # HTTPS server</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       443 ssl;</span><br><span class="line">    #    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #    ssl_certificate      cert.pem;</span><br><span class="line">    #    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    #    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    #    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    #    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4><span id="zhu">注:</span><a href="#zhu" class="header-anchor">#</a></h4><p>此为默认写法，一般在生产中，server 与upstream 可以写在其他目录中，引入到http块。</p>
+<p>减少对nginx.conf文件的修改，而且目录结构清晰。  </p>
+<p>例如：</p>
+<ul>
+<li>nginx.conf文件  </li>
+</ul>
+<pre><code class="conf">user  nginx;
+worker_processes  2;
+
+error_log  /var/log/nginx/error.log error;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    # 引入其他目录的conf，引入/etc/nginx/conf.d/ 以conf结尾的文件
+    include /etc/nginx/conf.d/*.conf;
+}
+</code></pre>
+<ul>
+<li>引入目录下的用户配置：<br>在/etc/nginx/conf.d目录下的文件，以<code>.conf</code>结尾</li>
+</ul>
+<pre><code class="conf">
+upstream backend {
+        # 上游server 与权重
+         server 127.0.0.1:8080  weight=1;
+         server 127.0.0.1:8081  weight=1;
+         server 127.0.0.1:8081  weight=1;
+
+       }
+
+server {
+       # 监控端口
+       listen       80;
+       server_name  localhost;
+
+       #charset koi8-r;
+       #access_log  /var/log/nginx/host.access.log  main;
+
+       location /my {
+          # 负载均衡
+           proxy_pass http://backend;
+         }
+      }
+
+上述简单的实现了负载均衡的配置。</code></pre>
+
       
     </div>
     <footer>
@@ -87,7 +171,7 @@
         
   
   <div class="tags">
-    <a href="/tags/架构/">架构</a>, <a href="/tags/nginx实战总结/">nginx实战总结</a>, <a href="/tags/nginx/">nginx</a>, <a href="/tags/nginx-conf/">nginx.conf</a>, <a href="/tags/配置文件/">配置文件</a>
+    <a href="/tags/架构/">架构</a>, <a href="/tags/nginx/">nginx</a>, <a href="/tags/nginx实战总结/">nginx实战总结</a>, <a href="/tags/nginx-conf/">nginx.conf</a>, <a href="/tags/配置文件/">配置文件</a>
   </div>
 
         
