@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>在module下使用xorm reserve 命令 | tyltr技术窝</title>
+  <meta name="author" content="tylitianrui">
+  
+  <meta name="description" content="在go module下，对mysql数据库，使用xorm:  
+1.安装xorm ,xorm命令工具，mysql驱动#123go  get github.com/go-sql-driver/mysqlgo  get github.com/go-xorm/xormgo  get github.com/">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="在module下使用xorm reserve 命令">
+  <meta property="og:site_name" content="tyltr技术窝">
+
+  
+    <meta property="og:image" content>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="tyltr技术窝" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">tyltr技术窝</a></h1>
+  <h2><a href="/">关注于Golang、Python、互联网</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/golang">golang</a></li>
+    
+      <li><a href="/categories/python">python</a></li>
+    
+      <li><a href="/categories/网络">网络</a></li>
+    
+      <li><a href="/categories/数据库">数据库</a></li>
+    
+      <li><a href="/categories/架构">架构</a></li>
+    
+      <li><a href="/categories/算法">算法</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+      <li><a href="/about">关于</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-在module下使用xorm-reserve-命令" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-01-29T22:41:00.000Z"><a href="/2019/01/30/在module下使用xorm-reserve-命令/">2019-01-30</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">在module下使用xorm reserve 命令</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>在go module下，对mysql数据库，使用xorm:  </p>
+<h2><span id="1-an-zhuang-xorm-xorm-ming-ling-gong-ju-mysql-qu-dong">1.安装xorm ,xorm命令工具，mysql驱动</span><a href="#1-an-zhuang-xorm-xorm-ming-ling-gong-ju-mysql-qu-dong" class="header-anchor">#</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go  get github.com/go-sql-driver/mysql</span><br><span class="line">go  get github.com/go-xorm/xorm</span><br><span class="line">go  get github.com/go-xorm/cmd/xorm</span><br></pre></td></tr></table></figure>
+
+<h2><span id="2-zai-xiang-mu-mu-lu-xia-zhi-xing">2. 在项目目录下执行</span><a href="#2-zai-xiang-mu-mu-lu-xia-zhi-xing" class="header-anchor">#</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build -tags mysql</span><br></pre></td></tr></table></figure>
+
+<h2><span id="3-zai-xiang-mu-mu-lu-xia-chuang-jian-templates-goxorm-mu-lu-yi-ji-pei-zhi">3.在项目目录下，创建templates/goxorm目录以及配置</span><a href="#3-zai-xiang-mu-mu-lu-xia-chuang-jian-templates-goxorm-mu-lu-yi-ji-pei-zhi" class="header-anchor">#</a></h2><p>在templates/goxorm创建config、struct.go.tpl文件</p>
+<h3><span id="3-1-templates-goxorm-config">3.1 templates/goxorm/config</span><a href="#3-1-templates-goxorm-config" class="header-anchor">#</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lang=go</span><br><span class="line">genJson=1</span><br><span class="line">prefix=</span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-2-templates-goxorm-struct-go-tpl">3.2 templates/goxorm/struct.go.tpl</span><a href="#3-2-templates-goxorm-struct-go-tpl" class="header-anchor">#</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package &#123;&#123;.Models&#125;&#125;</span><br><span class="line">  </span><br><span class="line">&#123;&#123;$ilen := len .Imports&#125;&#125;</span><br><span class="line">&#123;&#123;if gt $ilen 0&#125;&#125;</span><br><span class="line">import (</span><br><span class="line">    &#123;&#123;range .Imports&#125;&#125;&quot;&#123;&#123;.&#125;&#125;&quot;&#123;&#123;end&#125;&#125;</span><br><span class="line">)</span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br><span class="line">  </span><br><span class="line">&#123;&#123;range .Tables&#125;&#125;</span><br><span class="line">type &#123;&#123;Mapper .Name&#125;&#125; struct &#123;</span><br><span class="line">  &#123;&#123;$table := .&#125;&#125;</span><br><span class="line">  &#123;&#123;range .ColumnsSeq&#125;&#125;&#123;&#123;$col := $table.GetColumn .&#125;&#125; &#123;&#123;Mapper $col.Name&#125;&#125;	&#123;&#123;Type $col&#125;&#125; &#123;&#123;Tag $table $col&#125;&#125;</span><br><span class="line">  &#123;&#123;end&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="4-chuang-jian-models-mu-lu">4.创建models目录</span><a href="#4-chuang-jian-models-mu-lu" class="header-anchor">#</a></h2><p>执行 <code>xorm reverse</code> 生成的model文件，都在models目录中  </p>
+<h2><span id="5-zhi-xing-ming-ling">5.执行命令</span><a href="#5-zhi-xing-ming-ling" class="header-anchor">#</a></h2><p>命令：<br>xorm reverse mysql <code>&lt;username&gt;</code>:<code>&lt;password&gt;</code>@tcp(<code>&lt;host&gt;</code>:<code>&lt;port&gt;</code>)/<code>&lt;database&gt;</code>?charset=utf8  templates/goxorm  </p>
+<ul>
+<li>username 数据库用户名  </li>
+<li>password 数据库密码</li>
+<li>host 数据库host</li>
+<li>port 端口</li>
+<li>database 数据库</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xorm  reverse  mysql  root:@tcp(127.0.0.1:3306)/shop?charset=utf8  templates/goxorm</span><br></pre></td></tr></table></figure>
+
+<p><strong>注</strong>：</p>
+<ul>
+<li>如果出现错误<code>no matches found: root:@tcp(127.0.0.1:3306)/shop?charset=utf8</code><br>解决方案：将mysql 链接中的（）和？转义，正确链接为<br><code>xorm  reverse  mysql  root:@tcp\(127.0.0.1:3306\)/shop\?charset=utf8  templates/goxorm</code></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/golang/">golang</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/golang/">golang</a>, <a href="/tags/xorm-reverse/">xorm reverse</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+<!-- 
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+</section>
+ -->
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/golang/">golang</a><small>4</small></li>
+  
+    <li><a href="/categories/python/">python</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>1</small></li>
+  
+    <li><a href="/categories/架构/">架构</a><small>10</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/网络/">网络</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/GC/">GC</a><small>1</small></li>
+  
+    <li><a href="/tags/InnoDB/">InnoDB</a><small>1</small></li>
+  
+    <li><a href="/tags/MPG/">MPG</a><small>1</small></li>
+  
+    <li><a href="/tags/TCP/">TCP</a><small>1</small></li>
+  
+    <li><a href="/tags/change-buffer/">change buffer</a><small>1</small></li>
+  
+    <li><a href="/tags/defer/">defer</a><small>1</small></li>
+  
+    <li><a href="/tags/golang/">golang</a><small>4</small></li>
+  
+    <li><a href="/tags/goroutine/">goroutine</a><small>1</small></li>
+  
+    <li><a href="/tags/leecode/">leecode</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>4</small></li>
+  
+    <li><a href="/tags/nginx-lua/">nginx+lua</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx-conf/">nginx.conf</a><small>2</small></li>
+  
+    <li><a href="/tags/nginx优化/">nginx优化</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx实战总结/">nginx实战总结</a><small>5</small></li>
+  
+    <li><a href="/tags/openresty/">openresty</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>1</small></li>
+  
+    <li><a href="/tags/socket/">socket</a><small>1</small></li>
+  
+    <li><a href="/tags/xorm-reverse/">xorm reverse</a><small>1</small></li>
+  
+    <li><a href="/tags/内存对齐/">内存对齐</a><small>1</small></li>
+  
+    <li><a href="/tags/内存管理/">内存管理</a><small>1</small></li>
+  
+    <li><a href="/tags/刷题/">刷题</a><small>1</small></li>
+  
+    <li><a href="/tags/剑指offer/">剑指offer</a><small>1</small></li>
+  
+    <li><a href="/tags/平滑升级/">平滑升级</a><small>1</small></li>
+  
+    <li><a href="/tags/开始/">开始</a><small>1</small></li>
+  
+    <li><a href="/tags/数据库/">数据库</a><small>1</small></li>
+  
+    <li><a href="/tags/架构/">架构</a><small>9</small></li>
+  
+    <li><a href="/tags/秒杀系统/">秒杀系统</a><small>1</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/缓存中的“坑”/">缓存中的“坑”</a><small>2</small></li>
+  
+    <li><a href="/tags/缓存击穿/">缓存击穿</a><small>1</small></li>
+  
+    <li><a href="/tags/缓存穿透/">缓存穿透</a><small>1</small></li>
+  
+    <li><a href="/tags/网络/">网络</a><small>1</small></li>
+  
+    <li><a href="/tags/解析缓存/">解析缓存</a><small>1</small></li>
+  
+    <li><a href="/tags/记忆/">记忆</a><small>1</small></li>
+  
+    <li><a href="/tags/调度/">调度</a><small>1</small></li>
+  
+    <li><a href="/tags/负载均衡/">负载均衡</a><small>1</small></li>
+  
+    <li><a href="/tags/配置文件/">配置文件</a><small>2</small></li>
+  
+    <li><a href="/tags/高并发/">高并发</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 tylitianrui
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+</body>
+</html>
