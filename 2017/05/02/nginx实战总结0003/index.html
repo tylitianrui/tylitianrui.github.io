@@ -110,13 +110,31 @@ WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体�
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -rfp  objs/nginx   /usr/sbin</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>5.执行平滑升级的信号 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /run/nginx.pid`</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
-<p>说明： kill  -USR2    nginx主进程PID<br>执行完这一句后，新旧俩个版本并存。都有worker 和master<br>-6. 关闭旧版本NGINX的worker进程<br>    kill -WINCH  旧版本的master的pid  </p>
-<p>优雅的关闭旧版本的worker会优雅的关闭。但是虽然worker已经关闭，但是旧进程的监听socket没有停止。旧版本的master进程依旧在运行  </p>
-<p>-7. 关闭旧版本nginx主进程<br>    kill  -QUIT  旧版本nginx主进程PID</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -USR2 `cat /run/nginx.pid`   # /run/nginx.pid  pid文件的保存路径，可在配置中查找</span><br></pre></td></tr></table></figure>
+
+<p>说明： kill  -USR2    nginx主进程PID  </p>
+<p>执行完这一句后，新版本的nginx会启动，但老版本的nginx不会被关闭。也就是说此时新旧俩个版本并存，都有自己的worker 和master。并且会创建一个nginx.old.pid文件，记录原版本master的pid，创建一个nginx.pid文件记录新版本的master进程pid。</p>
+<ul>
+<li>6关闭旧版本NGINX的worker进程</li>
+</ul>
+<p>​    kill -WINCH  旧版本的master的pid  </p>
+<p>优雅的关闭旧版本的worker会优雅的关闭，请求会全部到新版本的worker进行处理。但是虽然旧版本的worker已经关闭，但是旧进程的监听socket没有停止，也就是说旧版本的master进程依旧在运行。而且此时依旧可以停止升级回滚到就版本的nginx。如果此时放弃升级，见[8.放弃升级]。      </p>
+<ul>
+<li><ol start="7">
+<li>关闭旧版本nginx主进程</li>
+</ol>
+</li>
+</ul>
+<p>​    kill  -QUIT  旧版本nginx主进程PID</p>
+<p>关闭就旧版本的nginx   master进程，升级完成   </p>
+<ul>
+<li><p>8.放弃升级</p>
+<p>kill  -HUP  旧版本nginx主进程PID   </p>
+</li>
+</ul>
+<p>即可在不读取配置文件的前提下，重启旧版本nginx的worker进程。</p>
 <h2><span id="4-bei-zhu">4.备注</span><a href="#4-bei-zhu" class="header-anchor">#</a></h2><p>ubuntu中nginx的目录<br>    /usr/sbin/nginx     二进制主程序<br>    /etc/nginx   存放配置文件<br>    /usr/share/nginx   存放静态文件<br>    /var/log/nginx  存放日志</p>
 
       
