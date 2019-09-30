@@ -318,65 +318,9 @@ WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体�
 <ul>
 <li>nginx.conf文件  </li>
 </ul>
-<pre><code class="conf">user  nginx;
-worker_processes  2;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">user  nginx;</span><br><span class="line">worker_processes  2;</span><br><span class="line"></span><br><span class="line">error_log  /var/log/nginx/error.log error;</span><br><span class="line">pid        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       /etc/nginx/mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line">	</span><br><span class="line">	# 引入其他目录的conf，引入/etc/nginx/conf.d/ 以conf结尾的文件</span><br><span class="line">    include /etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- 引入目录下的用户配置：   </span><br><span class="line">在/etc/nginx/conf.d目录下的文件，以`.conf`结尾</span><br><span class="line"></span><br><span class="line">```conf</span><br><span class="line"></span><br><span class="line">upstream backend &#123;</span><br><span class="line">         server 127.0.0.1:8080  weight=1;</span><br><span class="line">         server 127.0.0.1:8081  weight=1;</span><br><span class="line">         server 127.0.0.1:8081  weight=1;</span><br><span class="line">   </span><br><span class="line">       &#125;</span><br><span class="line">   </span><br><span class="line">server &#123;</span><br><span class="line">       # 监控端口</span><br><span class="line">       listen       80;</span><br><span class="line">       server_name  localhost;</span><br><span class="line">   </span><br><span class="line">       #charset koi8-r;</span><br><span class="line">       #access_log  /var/log/nginx/host.access.log  main;</span><br><span class="line"></span><br><span class="line">       #访问localhost:80端口，或被路由到上游backend上面去,即 pstream backend</span><br><span class="line">       # 再根据负责均衡策略进行，分发到不同放入server上</span><br><span class="line">       location / &#123;</span><br><span class="line">           proxy_pass http://backend;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
 
-error_log  /var/log/nginx/error.log error;
-pid        /var/run/nginx.pid;
-
-events {
-    worker_connections  1024;
-}
-
-
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
-
-    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
-                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
-                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile        on;
-    #tcp_nopush     on;
-
-    keepalive_timeout  65;
-
-    #gzip  on;
-
-    # 引入其他目录的conf，引入/etc/nginx/conf.d/ 以conf结尾的文件
-    include /etc/nginx/conf.d/*.conf;
-}
-</code></pre>
-<ul>
-<li>引入目录下的用户配置：<br>在/etc/nginx/conf.d目录下的文件，以<code>.conf</code>结尾</li>
-</ul>
-<pre><code class="conf">
-upstream backend {
-         server 127.0.0.1:8080  weight=1;
-         server 127.0.0.1:8081  weight=1;
-         server 127.0.0.1:8081  weight=1;
-
-       }
-
-server {
-       # 监控端口
-       listen       80;
-       server_name  localhost;
-
-       #charset koi8-r;
-       #access_log  /var/log/nginx/host.access.log  main;
-
-       #访问localhost:80端口，或被路由到上游backend上面去,即 pstream backend
-       # 再根据负责均衡策略进行，分发到不同放入server上
-       location / {
-           proxy_pass http://backend;
-         }
-      }
-
-上述简单的实现了负载均衡的配置。</code></pre>
+<p>上述简单的实现了负载均衡的配置。</p>
 
       
     </div>
