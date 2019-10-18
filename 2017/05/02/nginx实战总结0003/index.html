@@ -1,81 +1,280 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
   <title>nginx入门之平滑升级 | tyltr技术窝</title>
-  <meta name="author" content="tylitianrui">
-  
-  <meta name="description" content="把服务器从低版本升级到高版本，强行停止服务器，会影响正在运行的进程，对用户的体验页非常差。所以需要平滑升级。什么是平滑升级呢？平滑升级就是在不停掉正在运行的进程，不会停止服务。在平滑升级的过程中，新开的进程也会被处理。  
-在现实情况下，nginx在能满足现状的时候，一般不会升级nginx的版本。也">
   
   
+
+  
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <meta property="og:title" content="nginx入门之平滑升级">
-  <meta property="og:site_name" content="tyltr技术窝">
-
-  
-    <meta property="og:image" content>
+  <!-- meta -->
   
 
-  <link href="/favicon.png" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="tyltr技术窝" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
   
 
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9.9/css/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
 </head>
 
-
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">tyltr技术窝</a></h1>
-  <h2><a href="/">关注于Golang、Python、互联网</a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
-    
-      <li><a href="/">首页</a></li>
-    
-      <li><a href="/categories/golang">golang</a></li>
-    
-      <li><a href="/categories/python">python</a></li>
-    
-      <li><a href="/categories/网络">网络</a></li>
-    
-      <li><a href="/categories/数据库">数据库</a></li>
-    
-      <li><a href="/categories/架构">架构</a></li>
-    
-      <li><a href="/categories/算法">算法</a></li>
-    
-      <li><a href="/archives">归档</a></li>
-    
-      <li><a href="/about">关于</a></li>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>tyltr技术窝</h1>
+
+
+<div class='menu navgation'>
+  <ul class='h-list'>
     
   </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          tyltr技术窝
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;示例
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/archives"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="archives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/about"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="about">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;关于
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+			<ul class='switcher h-list'>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
 </header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-nginx实战总结0003" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-  <div class="post-content">
+	<aside class="menu-phone">
     <header>
-      
-        <div class="icon"></div>
-        <time class="dt-published" datetime="2017-05-02T15:43:29.000Z"><a href="/2017/05/02/nginx实战总结0003/">2017-05-02</a></time>
-      
-      
-  
-    <h1 class="p-name title" itemprop="headline name">nginx入门之平滑升级</h1>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/archives"
+                
+                  rel="nofollow"
+                
+                
+                id="archives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于我
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
   
 
-    </header>
-    <div class="e-content entry" itemprop="articleBody">
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
       
+        
+  
+    <h1 class="title">
+      <a href="/2017/05/02/nginx实战总结0003/">
+        nginx入门之平滑升级
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://sudozoyo.com" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>tylitianrui</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-05-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/架构/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>架构</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
         <p>把服务器从低版本升级到高版本，强行停止服务器，会影响正在运行的进程，对用户的体验页非常差。所以需要<strong>平滑升级</strong>。什么是平滑升级呢？平滑升级就是在不停掉正在运行的进程，不会停止服务。在平滑升级的过程中，新开的进程也会被处理。  </p>
 <p>在现实情况下，nginx在能满足现状的时候，一般不会升级nginx的版本。也就是说，<strong>你如果升级了nginx的话，你面临的一些棘手的问题必须能解决掉</strong>，不能为了升级而升级。<br>如果你有nginx的基础，可以跳过第1节 第 2节，直接看第三节即可。  </p>
 <h2><span id="1-nginx-de-ji-ben-ming-ling">1. nginx的基本命令</span><a href="#1-nginx-de-ji-ben-ming-ling" class="header-anchor">#</a></h2><h4><span id="1-1-qi-dong-nginx">1.1 启动nginx</span><a href="#1-1-qi-dong-nginx" class="header-anchor">#</a></h4><p><strong>nginx -c /path/to/nginx.conf</strong><br>说明：nginx  -c nginx的配置文件</p>
@@ -137,160 +336,666 @@ WINCH  从容关闭旧进程   </code></pre><h5><span id="ju-ti-yong-fa">具体�
 <p>即可在不读取配置文件的前提下，重启旧版本nginx的worker进程。</p>
 <h2><span id="4-bei-zhu">4.备注</span><a href="#4-bei-zhu" class="header-anchor">#</a></h2><p>ubuntu中nginx的目录<br>    /usr/sbin/nginx     二进制主程序<br>    /etc/nginx   存放配置文件<br>    /usr/share/nginx   存放静态文件<br>    /var/log/nginx  存放日志</p>
 
+      </div>
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-09-29T17:21:36+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2019年9月29日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/架构/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>架构</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/nginx实战总结/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>nginx实战总结</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/nginx/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>nginx</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/平滑升级/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>平滑升级</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
-    <footer>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2017/05/13/nginx实战总结0004/" rel="prev" title="nginx入门之负载均衡">
+                                
+                                    nginx入门之负载均衡
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/架构/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 架构</a> <a class="tag" href="/tags/nginx实战总结/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> nginx实战总结</a> <a class="tag" href="/tags/nginx/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> nginx</a> <a class="tag" href="/tags/负载均衡/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 负载均衡</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2017/04/21/nginx实战总结0002/" rel="prev" title="nginx入门之配置优化">
+                                  
+                                      nginx入门之配置优化
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/架构/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 架构</a> <a class="tag" href="/tags/nginx实战总结/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> nginx实战总结</a> <a class="tag" href="/tags/nginx-conf/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> nginx.conf</a> <a class="tag" href="/tags/配置文件/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 配置文件</a> <a class="tag" href="/tags/nginx优化/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> nginx优化</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'nginx入门之平滑升级',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
       
         
-  
-  <div class="categories">
-    <a href="/categories/架构/">架构</a>
-  </div>
-
+          
+          
+            
+              <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://avatars2.githubusercontent.com/u/31768692?s=460&v=4'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
         
-  
-  <div class="tags">
-    <a href="/tags/架构/">架构</a>, <a href="/tags/nginx实战总结/">nginx实战总结</a>, <a href="/tags/nginx/">nginx</a>, <a href="/tags/平滑升级/">平滑升级</a>
-  </div>
-
+          
+            <a href="/"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
         
-      
-      <div class="clearfix"></div>
-    </footer>
+          
+            <a href="mailto:tylitianrui@126.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/tylitianrui"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
   </div>
-</article>
-
-<!-- 
-<section id="comment">
-  <h1 class="title">留言</h1>
-
-  
 </section>
- -->
-</div></div>
-    <aside id="sidebar" class="alignright">
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
   
-<div class="widget tag">
-  <h3 class="title">分类</h3>
-  <ul class="entry">
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
   
-    <li><a href="/categories/golang/">golang</a><small>4</small></li>
-  
-    <li><a href="/categories/python/">python</a><small>2</small></li>
-  
-    <li><a href="/categories/数据库/">数据库</a><small>1</small></li>
-  
-    <li><a href="/categories/架构/">架构</a><small>10</small></li>
-  
-    <li><a href="/categories/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/categories/网络/">网络</a><small>1</small></li>
-  
-  </ul>
-</div>
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">1. nginx的基本命令#</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">1.1 启动nginx#</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">1.2 关闭nginx#</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">1.3 重启nginx#</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">2.信号控制#</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">2.1 信号类型#</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">具体用法：#</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">例如#</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">3.平滑升级#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">4.备注#</span></a></li></ol>
+    </div>
+  </section>
 
 
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
   
-<div class="widget tag">
-  <h3 class="title">标签</h3>
-  <ul class="entry">
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
   
-    <li><a href="/tags/GC/">GC</a><small>1</small></li>
-  
-    <li><a href="/tags/InnoDB/">InnoDB</a><small>1</small></li>
-  
-    <li><a href="/tags/MPG/">MPG</a><small>1</small></li>
-  
-    <li><a href="/tags/TCP/">TCP</a><small>1</small></li>
-  
-    <li><a href="/tags/change-buffer/">change buffer</a><small>1</small></li>
-  
-    <li><a href="/tags/defer/">defer</a><small>1</small></li>
-  
-    <li><a href="/tags/golang/">golang</a><small>4</small></li>
-  
-    <li><a href="/tags/goroutine/">goroutine</a><small>1</small></li>
-  
-    <li><a href="/tags/leecode/">leecode</a><small>1</small></li>
-  
-    <li><a href="/tags/nginx/">nginx</a><small>4</small></li>
-  
-    <li><a href="/tags/nginx-lua/">nginx+lua</a><small>1</small></li>
-  
-    <li><a href="/tags/nginx-conf/">nginx.conf</a><small>2</small></li>
-  
-    <li><a href="/tags/nginx优化/">nginx优化</a><small>1</small></li>
-  
-    <li><a href="/tags/nginx实战总结/">nginx实战总结</a><small>5</small></li>
-  
-    <li><a href="/tags/openresty/">openresty</a><small>1</small></li>
-  
-    <li><a href="/tags/python/">python</a><small>2</small></li>
-  
-    <li><a href="/tags/socket/">socket</a><small>1</small></li>
-  
-    <li><a href="/tags/xorm-reverse/">xorm reverse</a><small>1</small></li>
-  
-    <li><a href="/tags/内存对齐/">内存对齐</a><small>1</small></li>
-  
-    <li><a href="/tags/内存管理/">内存管理</a><small>1</small></li>
-  
-    <li><a href="/tags/刷题/">刷题</a><small>1</small></li>
-  
-    <li><a href="/tags/剑指offer/">剑指offer</a><small>1</small></li>
-  
-    <li><a href="/tags/平滑升级/">平滑升级</a><small>1</small></li>
-  
-    <li><a href="/tags/开始/">开始</a><small>1</small></li>
-  
-    <li><a href="/tags/数据库/">数据库</a><small>1</small></li>
-  
-    <li><a href="/tags/架构/">架构</a><small>9</small></li>
-  
-    <li><a href="/tags/秒杀系统/">秒杀系统</a><small>1</small></li>
-  
-    <li><a href="/tags/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/tags/缓存中的“坑”/">缓存中的“坑”</a><small>2</small></li>
-  
-    <li><a href="/tags/缓存击穿/">缓存击穿</a><small>1</small></li>
-  
-    <li><a href="/tags/缓存穿透/">缓存穿透</a><small>1</small></li>
-  
-    <li><a href="/tags/网络/">网络</a><small>1</small></li>
-  
-    <li><a href="/tags/装饰器/">装饰器</a><small>1</small></li>
-  
-    <li><a href="/tags/解析缓存/">解析缓存</a><small>1</small></li>
-  
-    <li><a href="/tags/记忆/">记忆</a><small>1</small></li>
-  
-    <li><a href="/tags/调度/">调度</a><small>1</small></li>
-  
-    <li><a href="/tags/负载均衡/">负载均衡</a><small>1</small></li>
-  
-    <li><a href="/tags/配置文件/">配置文件</a><small>2</small></li>
-  
-    <li><a href="/tags/高并发/">高并发</a><small>2</small></li>
-  
-  </ul>
-</div>
+</header>
 
-</aside>
-    <div class="clearfix"></div>
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/archives" href="/archives"
+          
+            rel="nofollow"
+          
+          
+          id="archives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于我
+        </a></li>
+      
+    </ul>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
   
-  &copy; 2019 tylitianrui
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/"
+    title="/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
   
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/python/" href="/categories/python/"><div class='name'>python</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/数据库/" href="/categories/数据库/"><div class='name'>数据库</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/架构/" href="/categories/架构/"><div class='name'>架构</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/算法/" href="/categories/算法/"><div class='name'>算法</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/网络/" href="/categories/网络/"><div class='name'>网络</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/"
+    title="/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/InnoDB/" style="font-size: 14px; color: #999">InnoDB</a> <a href="/tags/MPG/" style="font-size: 14px; color: #999">MPG</a> <a href="/tags/TCP/" style="font-size: 14px; color: #999">TCP</a> <a href="/tags/change-buffer/" style="font-size: 14px; color: #999">change buffer</a> <a href="/tags/defer/" style="font-size: 14px; color: #999">defer</a> <a href="/tags/golang/" style="font-size: 21.5px; color: #666">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/nginx/" style="font-size: 19px; color: #777">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 16.5px; color: #888">nginx.conf</a> <a href="/tags/nginx优化/" style="font-size: 14px; color: #999">nginx优化</a> <a href="/tags/nginx实战总结/" style="font-size: 21.5px; color: #666">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/python/" style="font-size: 16.5px; color: #888">python</a> <a href="/tags/socket/" style="font-size: 14px; color: #999">socket</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/数据库/" style="font-size: 14px; color: #999">数据库</a> <a href="/tags/架构/" style="font-size: 24px; color: #555">架构</a> <a href="/tags/秒杀系统/" style="font-size: 14px; color: #999">秒杀系统</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/缓存中的“坑”/" style="font-size: 16.5px; color: #888">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/缓存穿透/" style="font-size: 14px; color: #999">缓存穿透</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/负载均衡/" style="font-size: 14px; color: #999">负载均衡</a> <a href="/tags/配置文件/" style="font-size: 16.5px; color: #888">配置文件</a> <a href="/tags/高并发/" style="font-size: 16.5px; color: #888">高并发</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:tylitianrui@126.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/tylitianrui"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>power by <a href="https://hexo.io/">HEXO</a>  theme <a href="https://xaoxuu.com/wiki/material-x/">material-x</a></p>
 </div>
-<div class="clearfix"></div></footer>
-  <script src="/js/jquery-3.4.1.min.js"></script>
-<script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      此主题总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
 
 
 
 
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://raw.githubusercontent.com/tylitianrui/res/master/img/91197b04c13f512f734a76d4ac422d89dbe229.jpg?token=AHSMA5FT22CTLFVB557PXWC5VGQCA"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://raw.githubusercontent.com/tylitianrui/res/master/img/91197b04c13f512f734a76d4ac422d89dbe229.jpg?token=AHSMA5FT22CTLFVB557PXWC5VGQCA"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9/js/app.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
 </body>
 </html>
