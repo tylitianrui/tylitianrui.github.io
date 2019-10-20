@@ -276,7 +276,7 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <p>python作为一种脚本语言以其灵活性、易上手而著称。甚至一度被人称为“可执行的伪代码”。虽然如此，但python里确实有很多坑。  </p>
-<h2><span id="keng-si-ren-de-yin-yong-lei-xing">坑死人的引用类型</span><a href="#keng-si-ren-de-yin-yong-lei-xing" class="header-anchor">#</a></h2><p>对于下面的代码，相信大家都不会陌生</p>
+<h2><span id="mo-ren-can-shu-keng-si-ren">默认参数坑死人</span><a href="#mo-ren-can-shu-keng-si-ren" class="header-anchor">#</a></h2><p>对于下面的代码，相信大家都不会陌生</p>
 <p><strong>例子1</strong>  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="comment"># author: tyltr</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">A</span><span class="params">(item, l=[])</span>:</span></span><br><span class="line">    l.append(item)</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(A(<span class="number">1</span>))</span><br><span class="line">    print(A(<span class="number">1</span>))</span><br><span class="line">    print(A(<span class="number">1</span>))</span><br><span class="line">    print(A(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
 
@@ -484,7 +484,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">坑死人的引用类型#</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">默认参数坑死人#</span></a></li></ol>
     </div>
   </section>
 
