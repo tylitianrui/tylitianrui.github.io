@@ -275,7 +275,26 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        
+        <p><del>本文的源码分析基于：版本：version go1.9.2</del>   </p>
+<p>本文的源码分析基于：版本：version go 1.13   &ensp;&ensp;&ensp;&ensp;&ensp;更新：2019-10-19</p>
+<p>map(字典、映射)在不同语言中都有这类 <code>kv</code>的数据结构。每种语言的实现也不尽相同。那么go是怎么实现的呢？<br><code>Go</code> 语言采用的是<strong>哈希查找表</strong>，并且使用<strong>链表</strong>解决哈希冲突。注：<code>python</code>采用的是二次寻址的方式解决哈希冲突的。  </p>
+<h2><span id="1-di-ceng-shu-ju-jie-gou">1.底层数据结构</span><a href="#1-di-ceng-shu-ju-jie-gou" class="header-anchor">#</a></h2><p>map的内部实现示意图： </p>
+<p><img src="http://pzklm3h5m.bkt.clouddn.com/1571898598366.jpg" alt="map的内部实现示意图">  </p>
+<p>map的定义：<code>runtime/map.go</code>   </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A header for a Go map.</span></span><br><span class="line"><span class="comment">// map的定义  hashmap缩写</span></span><br><span class="line"><span class="keyword">type</span> hmap <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// Note: the format of the hmap is also encoded in cmd/compile/internal/gc/reflect.go.</span></span><br><span class="line">	<span class="comment">// Make sure this stays in sync with the compiler's definition.</span></span><br><span class="line">	<span class="comment">// len()==count,map中元素的数量</span></span><br><span class="line">	count     <span class="keyword">int</span> <span class="comment">// # live cells == size of map.  Must be first (used by len() builtin)</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 这是一个标识，标注map当前处于的状态</span></span><br><span class="line">	flags     <span class="keyword">uint8</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// bmap数组的长度为2^B</span></span><br><span class="line">	B         <span class="keyword">uint8</span>  <span class="comment">// log_2 of # of buckets (can hold up to loadFactor * 2^B items)</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 溢出的数量</span></span><br><span class="line">	noverflow <span class="keyword">uint16</span> <span class="comment">// approximate number of overflow buckets; see incrnoverflow for details</span></span><br><span class="line">	hash0     <span class="keyword">uint32</span> <span class="comment">// hash seed  哈希种子</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向当前使用的桶数组,这个数组的长度2^B</span></span><br><span class="line">	buckets    unsafe.Pointer <span class="comment">// array of 2^B Buckets. may be nil if count==0.</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 扩容时，用得到这个。指向原来的桶的数组</span></span><br><span class="line">	<span class="comment">// 扩容的时候，buckets 长度会是 oldbuckets 的两倍</span></span><br><span class="line">	<span class="comment">// 即B+1</span></span><br><span class="line">	oldbuckets unsafe.Pointer <span class="comment">// previous bucket array of half the size, non-nil only when growing</span></span><br><span class="line">	<span class="comment">// 扩容是渐进式的，扩容的进度</span></span><br><span class="line">	nevacuate  <span class="keyword">uintptr</span>        <span class="comment">// progress counter for evacuation (buckets less than this have been evacuated)</span></span><br><span class="line"></span><br><span class="line">	extra *mapextra <span class="comment">// optional fields</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一直说桶数组，桶于是什么鬼？<br><img src="http://pzklm3h5m.bkt.clouddn.com/57577391-f88f1d80-74a7-11e9-893c-4783dc4fb35e.png" alt="桶的示意图"></p>
+<p>源码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A bucket for a Go map.</span></span><br><span class="line"><span class="comment">// bucket桶的定义</span></span><br><span class="line"><span class="keyword">type</span> bmap <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// tophash generally contains the top byte of the hash value</span></span><br><span class="line">	<span class="comment">// for each key in this bucket. If tophash[0] &lt; minTopHash,</span></span><br><span class="line">	<span class="comment">// tophash[0] is a bucket evacuation state instead.</span></span><br><span class="line">	tophash [bucketCnt]<span class="keyword">uint8</span></span><br><span class="line">	<span class="comment">// Followed by bucketCnt keys and then bucketCnt elems.</span></span><br><span class="line">	<span class="comment">// <span class="doctag">NOTE:</span> packing all the keys together and then all the elems together makes the</span></span><br><span class="line">	<span class="comment">// code a bit more complicated than alternating key/elem/key/elem/... but it allows</span></span><br><span class="line">	<span class="comment">// us to eliminate padding which would be needed for, e.g., map[int64]int8.</span></span><br><span class="line">	<span class="comment">// Followed by an overflow pointer.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的<code>bmap</code>结构体只是初步的，在编译的时候会进行添加属性。会变成动态的创建一个新的  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> bmap <span class="keyword">struct</span> &#123;</span><br><span class="line">    topbits  [<span class="number">8</span>]<span class="keyword">uint8</span></span><br><span class="line">    keys     [<span class="number">8</span>]keytype</span><br><span class="line">    values   [<span class="number">8</span>]valuetype</span><br><span class="line">    pad      <span class="keyword">uintptr</span></span><br><span class="line">    overflow <span class="keyword">uintptr</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>更新：2019-10-19</strong><br>本文下半部分已经删除，因为这一块比较复杂。  </p>
+<p>发现一个在线视频讲解的非常棒！推荐出来，建议直接看这个视频<br><a href="https://www.bilibili.com/video/av53999006?from=search&amp;seid=11391556328338958127" target="_blank" rel="noopener">https://www.bilibili.com/video/av53999006?from=search&amp;seid=11391556328338958127</a>   </p>
+<p>课件<a href="https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md" target="_blank" rel="noopener">https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md</a></p>
+<p>注：这个视频是基于1.9版本的，1.13中有所修改，例如<code>loadFactor</code>这个常量已经删除了。但逻辑没有太大变化，还是很有价值的一个课程。</p>
+
       </div>
       
         <br>
@@ -450,6 +469,20 @@
           
             
               
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">1.底层数据结构#</span></a></li></ol>
+    </div>
+  </section>
+
 
             
           
