@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-  <title>Archives: 2016/9 | tyltr技术窝</title>
+  <title>innodb索引下推 | tyltr技术窝</title>
   
   
 
@@ -44,7 +44,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>tyltr技术窝</h1>
@@ -177,22 +177,10 @@
   <div class="l_body">
     <div class='body-wrapper'>
       <div class='l_main'>
-	
-		
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
 
 
   <section class='meta'>
@@ -201,11 +189,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2016/09/09/算法/">
-      算法刷题-leeocde、offer等
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2019/06/01/innodb索引下推/">
+        innodb索引下推
+      </a>
+    </h1>
+  
 
 
       
@@ -233,7 +223,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2016-09-09</p>
+    <p>2019-06-01</p>
   </a>
 </div>
 
@@ -243,11 +233,29 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/数据结构与算法/' rel="nofollow">
+    <a href='/categories/MySQL/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>数据结构与算法</p>
+      <p>MySQL</p>
     </a>
   </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
 
 
           
@@ -265,49 +273,119 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p>索引下推并不是新技术，通常情况会被人忽略。索引下推是 <code>mysql5.6</code> 版本中对之前版中索引查询的优化方式。  </p>
+<p><code>mysql5.6</code>之前是怎么进行索引查询的呢？他会首先根据索引来查找记录，再根据 <code>where</code> 条件进行过滤。<br>举例说明，存在怎么一张表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `name` varchar(255) DEFAULT &quot;&quot;,</span><br><span class="line">  `age` int(11) DEFAULT 0,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `idx_age` (`age`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8</span><br></pre></td></tr></table></figure>
+
+<p>我们查询<code>年龄为18岁，且命命中是&#39;tyltr&#39;的用户</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where age=12 and name=&apos;tyltr&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>之前版本的查询是这样的：查询出所有<code>age=18</code>的数据，然后在使用<code>name=&#39;tyltr&#39;</code>对已经查询出来的数据进行过滤。<br>5.6版本使用了索引下推的查询是这样的： 查询使用索引<code>age=18</code>的数据，同时判断是否<code>name=&#39;tyltr&#39;</code>，再获取数据。</p>
+<p>看似两种区别不大，为了好理解两者的区别。那我们类比一个现实生活中的场景吧。<br>假如，警察局接到举报。逃犯XX窝藏在L村。警察去L抓人。  </p>
+<p>如果类比<code>不支持索引下推的查询</code>，警察抓人的流程是这样的。把L村所有居民统统抓到警察局，然后再警察局里一个一个的对比是不是逃犯XX。<br>如果是则抓获XX，不是则释放。这种做法是不是有些笨。  </p>
+<p>如果类比<code>支持索引下推的查询</code>，警察抓人的流程是这样的。来到L村，在L村直接判断某村民是不是逃犯XX。如果是，则进行抓捕。这样是不是效率就提高了。</p>
+
+      </div>
       
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
       
-        <div class="readmore">
-          <a href="/2016/09/09/算法/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MySQL/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>MySQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/InnoDB/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>InnoDB</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/索引下推/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>索引下推</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/算法/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 算法</a>
-        
-          <a href="/tags/leecode/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> leecode</a>
-        
-          <a href="/tags/剑指offer/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 剑指offer</a>
-        
-          <a href="/tags/刷题/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 刷题</a>
-        
-      </div>
-    
   </section>
-</article>
 
-          </div>
-        
+
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2019/06/09/坑人的null/" rel="prev" title="坑人的null">
+                                
+                                    坑人的null
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/数据库允许空值/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 数据库允许空值</a> <a class="tag" href="/tags/Mysql/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Mysql</a> <a class="tag" href="/tags/or/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> or</a> <a class="tag" href="/tags/全表扫描/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 全表扫描</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2019/03/15/goroutine调度分析/" rel="prev" title="golang之goroutine调度">
+                                  
+                                      golang之goroutine调度
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/golang/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> golang</a> <a class="tag" href="/tags/goroutine/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> goroutine</a> <a class="tag" href="/tags/调度/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 调度</a> <a class="tag" href="/tags/MPG/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> MPG</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
 
   
 
 
-	
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'innodb索引下推',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -380,6 +458,11 @@
           
         
           
+          
+            
+              
+
+            
           
         
           
@@ -572,6 +655,40 @@
           
         
       
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
     
 
   
@@ -625,14 +742,6 @@
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>
