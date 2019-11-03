@@ -275,7 +275,24 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        
+        <p>python的内存管理机制主要包括引用计数、垃圾回收、内存池三方面组成。  </p>
+<h2><span id="yin-yong-ji-shu">引用计数</span><a href="#yin-yong-ji-shu" class="header-anchor">#</a></h2><p>Python的内存管理是通过对象的引用计数器来实现的。<br>对象的创建会将引用计数器加1，被引用一次则引用计数器就会加1，反之解除引用时，则引用计数器就会减1。<br>当Python对象的引用计数器为0的时候，则这个对象就会被回收和释放。</p>
+<p>python源代码，一切对象都是以<code>PyObject</code>结构体为基础的。</p>
+<p>Include/object.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">object</span> &#123;</span></span><br><span class="line">    _PyObject_HEAD_EXTRA</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数</span></span><br><span class="line">    Py_ssize_t ob_refcnt;  </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">typeobject</span> *<span class="title">ob_type</span>;</span></span><br><span class="line">&#125; PyObject;</span><br></pre></td></tr></table></figure>
+
+<p>所有的对象之中，都有引用计数。</p>
+<p>引用计数实现简单，但是有一个致命问题：循环引用。即对象A引用对象B，对象B引用对象A。  </p>
+<h2><span id="la-ji-hui-shou">垃圾回收</span><a href="#la-ji-hui-shou" class="header-anchor">#</a></h2><h3><span id="biao-ji-qing-chu">标记-清除</span><a href="#biao-ji-qing-chu" class="header-anchor">#</a></h3><p>为了解决循环引用的问题，所有引入了标记清除算法。但此算法的也存在严重的问题就是<code>STW</code>即<code>stop the world</code>。<br>标记时，所有的线程都会被挂起。  </p>
+<h3><span id="fen-dai-hui-shou">分代回收</span><a href="#fen-dai-hui-shou" class="header-anchor">#</a></h3><p>标记清除已经可以彻底的清除垃圾了。但每次运行都要stw。怎么进行优化呢？<br>分代回收的思想就是对象存在时间越长，越可能不是垃圾，应该越少去收集。<br>也就是说对于根据生存时间将对象划分为不同的代，每代的回收频率不同。时间长的回收频率越少，<br>也就相对提升了gc的性能了  </p>
+<h3><span id="la-ji-hui-shou-shi-ji">垃圾回收时机</span><a href="#la-ji-hui-shou-shi-ji" class="header-anchor">#</a></h3><ul>
+<li>调用<code>gc.collect()</code></li>
+<li><code>GC</code>达到阀值时</li>
+<li>程序退出时</li>
+</ul>
+<h2><span id="nei-cun-chi">内存池</span><a href="#nei-cun-chi" class="header-anchor">#</a></h2><p>内存池本质是借鉴了预分配的思想。<br>当创建大量消耗小内存的对象时，频繁调用new/malloc会导致大量的内存碎片，致使效率降低。<br>内存池的概念就是预先在内存中申请一定数量的，大小相等的内存块留作备用，当有新的内存需求时，就先从内存池中分配内存给这个需求，<br>不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。</p>
+<p>针对小对象，就是大小小于<code>256kb</code>时，会在内存池中申请内存空间；<br>当大于256kb，则会直接执行 <code>new/malloc</code>来申请新的内存空间。</p>
+
       </div>
       
         <br>
@@ -330,16 +347,16 @@
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2015/01/08/start-today/" rel="prev" title="开始|第一天">
+                              <a href="/2015/04/03/大学教材数据结构有关B树定义的错误/" rel="prev" title="大学教材数据结构有关B树定义的错误">
                                   
-                                      开始|第一天
+                                      大学教材数据结构有关B树定义的错误
                                   
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/tags/记忆/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 记忆</a> <a class="tag" href="/tags/开始/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 开始</a>
+                                  <a class="tag" href="/tags/数据结构/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 数据结构</a> <a class="tag" href="/tags/B树/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> B树</a> <a class="tag" href="/tags/严蔚敏/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 严蔚敏</a>
                               </h6>
                           
                       </span>
@@ -450,6 +467,20 @@
           
             
               
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">引用计数#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">垃圾回收#</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">标记-清除#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">分代回收#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">垃圾回收时机#</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">内存池#</span></a></li></ol>
+    </div>
+  </section>
+
 
             
           
@@ -579,7 +610,9 @@
         
           <li><a class="flat-box" title="/categories/个人总结/" href="/categories/个人总结/"><div class='name'>个人总结</div><div class='badge'>(1)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/数据结构与算法/" href="/categories/数据结构与算法/"><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+          <li><a class="flat-box" title="/categories/分布式/" href="/categories/分布式/"><div class='name'>分布式</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/数据结构与算法/" href="/categories/数据结构与算法/"><div class='name'>数据结构与算法</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box" title="/categories/杂谈/" href="/categories/杂谈/"><div class='name'>杂谈</div><div class='badge'>(2)</div></a></li>
         
@@ -635,7 +668,7 @@
 </header>
 
     <div class='content pure'>
-      <a href="/tags/996/" style="font-size: 14px; color: #999">996</a> <a href="/tags/B树与B-树/" style="font-size: 14px; color: #999">B树与B+树</a> <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/InnoDB/" style="font-size: 16.5px; color: #888">InnoDB</a> <a href="/tags/MPG/" style="font-size: 16.5px; color: #888">MPG</a> <a href="/tags/MySQL/" style="font-size: 16.5px; color: #888">MySQL</a> <a href="/tags/Mysql/" style="font-size: 16.5px; color: #888">Mysql</a> <a href="/tags/TCP/" style="font-size: 14px; color: #999">TCP</a> <a href="/tags/change-buffer/" style="font-size: 14px; color: #999">change buffer</a> <a href="/tags/channel/" style="font-size: 14px; color: #999">channel</a> <a href="/tags/defer/" style="font-size: 14px; color: #999">defer</a> <a href="/tags/golang/" style="font-size: 24px; color: #555">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go源码分析/" style="font-size: 16.5px; color: #888">go源码分析</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/innodb/" style="font-size: 14px; color: #999">innodb</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/map源码/" style="font-size: 14px; color: #999">map源码</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/nginx/" style="font-size: 16.5px; color: #888">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 16.5px; color: #888">nginx.conf</a> <a href="/tags/nginx优化/" style="font-size: 14px; color: #999">nginx优化</a> <a href="/tags/nginx实战总结/" style="font-size: 19px; color: #777">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/or/" style="font-size: 14px; color: #999">or</a> <a href="/tags/post的幂等性/" style="font-size: 14px; color: #999">post的幂等性</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/redis/" style="font-size: 16.5px; color: #888">redis</a> <a href="/tags/socket/" style="font-size: 14px; color: #999">socket</a> <a href="/tags/unsafe-Sizeof/" style="font-size: 14px; color: #999">unsafe.Sizeof</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/位运算/" style="font-size: 14px; color: #999">位运算</a> <a href="/tags/全表扫描/" style="font-size: 14px; color: #999">全表扫描</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/奇技淫巧/" style="font-size: 14px; color: #999">奇技淫巧</a> <a href="/tags/少卖/" style="font-size: 14px; color: #999">少卖</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/技巧/" style="font-size: 14px; color: #999">技巧</a> <a href="/tags/数据一致性/" style="font-size: 14px; color: #999">数据一致性</a> <a href="/tags/数据库允许空值/" style="font-size: 14px; color: #999">数据库允许空值</a> <a href="/tags/数据结构/" style="font-size: 16.5px; color: #888">数据结构</a> <a href="/tags/有序链表/" style="font-size: 14px; color: #999">有序链表</a> <a href="/tags/架构/" style="font-size: 21.5px; color: #666">架构</a> <a href="/tags/秒杀系统/" style="font-size: 14px; color: #999">秒杀系统</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/索引下推/" style="font-size: 14px; color: #999">索引下推</a> <a href="/tags/缓存/" style="font-size: 14px; color: #999">缓存</a> <a href="/tags/缓存中的“坑”/" style="font-size: 14px; color: #999">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/自适应哈希索引/" style="font-size: 14px; color: #999">自适应哈希索引</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/订单重复提交/" style="font-size: 14px; color: #999">订单重复提交</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/超卖/" style="font-size: 14px; color: #999">超卖</a> <a href="/tags/跳跃表/" style="font-size: 14px; color: #999">跳跃表</a> <a href="/tags/配置文件/" style="font-size: 16.5px; color: #888">配置文件</a> <a href="/tags/高并发/" style="font-size: 16.5px; color: #888">高并发</a>
+      <a href="/tags/996/" style="font-size: 14px; color: #999">996</a> <a href="/tags/B树/" style="font-size: 14px; color: #999">B树</a> <a href="/tags/B树与B-树/" style="font-size: 14px; color: #999">B树与B+树</a> <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/InnoDB/" style="font-size: 16.5px; color: #888">InnoDB</a> <a href="/tags/MPG/" style="font-size: 16.5px; color: #888">MPG</a> <a href="/tags/MySQL/" style="font-size: 16.5px; color: #888">MySQL</a> <a href="/tags/Mysql/" style="font-size: 16.5px; color: #888">Mysql</a> <a href="/tags/Snowflake/" style="font-size: 14px; color: #999">Snowflake</a> <a href="/tags/TCP/" style="font-size: 14px; color: #999">TCP</a> <a href="/tags/change-buffer/" style="font-size: 14px; color: #999">change buffer</a> <a href="/tags/channel/" style="font-size: 14px; color: #999">channel</a> <a href="/tags/defer/" style="font-size: 14px; color: #999">defer</a> <a href="/tags/golang/" style="font-size: 24px; color: #555">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go源码分析/" style="font-size: 16.5px; color: #888">go源码分析</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/innodb/" style="font-size: 14px; color: #999">innodb</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/map源码/" style="font-size: 14px; color: #999">map源码</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/nginx/" style="font-size: 16.5px; color: #888">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 16.5px; color: #888">nginx.conf</a> <a href="/tags/nginx优化/" style="font-size: 14px; color: #999">nginx优化</a> <a href="/tags/nginx实战总结/" style="font-size: 19px; color: #777">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/or/" style="font-size: 14px; color: #999">or</a> <a href="/tags/post的幂等性/" style="font-size: 14px; color: #999">post的幂等性</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/redis/" style="font-size: 16.5px; color: #888">redis</a> <a href="/tags/socket/" style="font-size: 14px; color: #999">socket</a> <a href="/tags/unsafe-Sizeof/" style="font-size: 14px; color: #999">unsafe.Sizeof</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/严蔚敏/" style="font-size: 14px; color: #999">严蔚敏</a> <a href="/tags/位运算/" style="font-size: 14px; color: #999">位运算</a> <a href="/tags/全表扫描/" style="font-size: 14px; color: #999">全表扫描</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/分布式id/" style="font-size: 14px; color: #999">分布式id</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/奇技淫巧/" style="font-size: 14px; color: #999">奇技淫巧</a> <a href="/tags/少卖/" style="font-size: 14px; color: #999">少卖</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/技巧/" style="font-size: 14px; color: #999">技巧</a> <a href="/tags/数据一致性/" style="font-size: 14px; color: #999">数据一致性</a> <a href="/tags/数据库允许空值/" style="font-size: 14px; color: #999">数据库允许空值</a> <a href="/tags/数据结构/" style="font-size: 19px; color: #777">数据结构</a> <a href="/tags/有序链表/" style="font-size: 14px; color: #999">有序链表</a> <a href="/tags/架构/" style="font-size: 21.5px; color: #666">架构</a> <a href="/tags/百度uid-generator/" style="font-size: 14px; color: #999">百度uid-generator</a> <a href="/tags/秒杀系统/" style="font-size: 14px; color: #999">秒杀系统</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/索引下推/" style="font-size: 14px; color: #999">索引下推</a> <a href="/tags/缓存/" style="font-size: 14px; color: #999">缓存</a> <a href="/tags/缓存中的“坑”/" style="font-size: 14px; color: #999">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/美团left/" style="font-size: 14px; color: #999">美团left</a> <a href="/tags/自适应哈希索引/" style="font-size: 14px; color: #999">自适应哈希索引</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/订单重复提交/" style="font-size: 14px; color: #999">订单重复提交</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/超卖/" style="font-size: 14px; color: #999">超卖</a> <a href="/tags/跳跃表/" style="font-size: 14px; color: #999">跳跃表</a> <a href="/tags/配置文件/" style="font-size: 16.5px; color: #888">配置文件</a> <a href="/tags/高并发/" style="font-size: 16.5px; color: #888">高并发</a>
     </div>
   </section>
 
