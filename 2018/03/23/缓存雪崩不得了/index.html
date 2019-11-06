@@ -275,7 +275,22 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>雪崩</p>
+        <h2><span id="huan-cun-xue-beng">缓存雪崩</span><a href="#huan-cun-xue-beng" class="header-anchor">#</a></h2><p>缓存雪崩：缓存中数据大批量到过期时间，而查询数据直接打到数据库；<br>或者是缓存服务器宕机了，造成大量的查询打到数据库上。从而引起数据库压力过大甚至down机。  </p>
+<p>正常情况下的请求,示意图</p>
+<p><img src="http://pzklm3h5m.bkt.clouddn.com/%E7%BC%93%E5%AD%98%E6%9C%89%E6%95%88.png" alt="缓存有效">  </p>
+<p>当时缓存雪崩，示意图</p>
+<p><img src="http://pzklm3h5m.bkt.clouddn.com/%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88.png" alt="缓存雪崩">  </p>
+<p>压力会集中在数据库上。</p>
+<h2><span id="jie-jue-fang-an">解决方案</span><a href="#jie-jue-fang-an" class="header-anchor">#</a></h2><ol>
+<li><p>针对缓存大批量的过期，是由于缓存设置了相同的过期时间了。解决的方案缓存设置为不同的超时时间。<br>例如在原有的超时时间的基础上增加一个1~3分钟的随机时间。即可避免这类问题。</p>
+</li>
+<li><p>做二级缓存。A1为原始缓存，A2为拷贝缓存。只有在A1失效时，可以访问A2，A1缓存失效时间设置为短期，A2设置为长期  </p>
+</li>
+<li><p>针对缓存服务器的高可用</p>
+</li>
+<li><p>万一所有的缓存都失效了，多个服务器进程访问统一个key的话，那就需要加锁了。这是最后的防线了。</p>
+</li>
+</ol>
 
       </div>
       
@@ -289,7 +304,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/架构/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>架构</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/高并发/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>高并发</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/缓存中的“坑”/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>缓存中的“坑”</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/解析缓存/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>解析缓存</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/缓存击穿/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>缓存击穿</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/架构/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>架构</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/缓存中的“坑”/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>缓存中的“坑”</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/解析缓存/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>解析缓存</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/高并发/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>高并发</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/缓存击穿/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>缓存击穿</p></a></div>
 
 
         
@@ -311,16 +326,16 @@
                       <span class="art-item-left">
                           <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                           <h4>
-                              <a href="/2018/04/12/你了解defer吗/" rel="prev" title="golang之defer解析">
+                              <a href="/2018/04/04/httprouter源码之前缀树/" rel="prev" title="httprouter源码之前缀树">
                                 
-                                    golang之defer解析
+                                    httprouter源码之前缀树
                                 
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/tags/golang/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> golang</a> <a class="tag" href="/tags/defer/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> defer</a>
+                                  <a class="tag" href="/tags/httprouter/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> httprouter</a> <a class="tag" href="/tags/前缀树/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 前缀树</a>
                               </h6>
                           
                       </span>
@@ -331,16 +346,16 @@
                       <span class="art-item-right" aria-hidden="true">
                           <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2018/01/26/go源码分析之channel/" rel="prev" title="go源码分析之channel">
+                              <a href="/2018/03/11/innodb索引下推/" rel="prev" title="innodb索引下推">
                                   
-                                      go源码分析之channel
+                                      innodb索引下推
                                   
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/tags/go源码分析/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> go源码分析</a> <a class="tag" href="/tags/channel/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> channel</a>
+                                  <a class="tag" href="/tags/MySQL/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> MySQL</a> <a class="tag" href="/tags/InnoDB/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> InnoDB</a> <a class="tag" href="/tags/索引下推/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 索引下推</a>
                               </h6>
                           
                       </span>
@@ -451,6 +466,20 @@
           
             
               
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">缓存雪崩#</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">解决方案#</span></a></li></ol>
+    </div>
+  </section>
+
 
             
           
@@ -566,19 +595,19 @@
     <div class='content pure'>
       <ul class="entry">
         
-          <li><a class="flat-box" title="/categories/MySQL/" href="/categories/MySQL/"><div class='name'>MySQL</div><div class='badge'>(3)</div></a></li>
+          <li><a class="flat-box" title="/categories/MySQL/" href="/categories/MySQL/"><div class='name'>MySQL</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/Redis/" href="/categories/Redis/"><div class='name'>Redis</div><div class='badge'>(1)</div></a></li>
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(9)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(8)</div></a></li>
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(1)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/nginx/" href="/categories/nginx/"><div class='name'>nginx</div><div class='badge'>(3)</div></a></li>
+          <li><a class="flat-box" title="/categories/nginx/" href="/categories/nginx/"><div class='name'>nginx</div><div class='badge'>(2)</div></a></li>
         
           <li><a class="flat-box" title="/categories/openresty/" href="/categories/openresty/"><div class='name'>openresty</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/python/" href="/categories/python/"><div class='name'>python</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/个人总结/" href="/categories/个人总结/"><div class='name'>个人总结</div><div class='badge'>(1)</div></a></li>
+          <li><a class="flat-box" title="/categories/个人总结/" href="/categories/个人总结/"><div class='name'>个人总结</div><div class='badge'>(2)</div></a></li>
         
           <li><a class="flat-box" title="/categories/分布式/" href="/categories/分布式/"><div class='name'>分布式</div><div class='badge'>(1)</div></a></li>
         
@@ -588,7 +617,7 @@
         
           <li><a class="flat-box" title="/categories/架构/" href="/categories/架构/"><div class='name'>架构</div><div class='badge'>(1)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/案例分析/" href="/categories/案例分析/"><div class='name'>案例分析</div><div class='badge'>(4)</div></a></li>
+          <li><a class="flat-box" title="/categories/案例分析/" href="/categories/案例分析/"><div class='name'>案例分析</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/网络/" href="/categories/网络/"><div class='name'>网络</div><div class='badge'>(1)</div></a></li>
         
@@ -638,7 +667,7 @@
 </header>
 
     <div class='content pure'>
-      <a href="/tags/996/" style="font-size: 14px; color: #999">996</a> <a href="/tags/B树/" style="font-size: 14px; color: #999">B树</a> <a href="/tags/B树与B-树/" style="font-size: 14px; color: #999">B树与B+树</a> <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/InnoDB/" style="font-size: 16.5px; color: #888">InnoDB</a> <a href="/tags/MPG/" style="font-size: 16.5px; color: #888">MPG</a> <a href="/tags/MySQL/" style="font-size: 16.5px; color: #888">MySQL</a> <a href="/tags/Mysql/" style="font-size: 16.5px; color: #888">Mysql</a> <a href="/tags/Snowflake/" style="font-size: 14px; color: #999">Snowflake</a> <a href="/tags/TCP/" style="font-size: 14px; color: #999">TCP</a> <a href="/tags/change-buffer/" style="font-size: 14px; color: #999">change buffer</a> <a href="/tags/channel/" style="font-size: 14px; color: #999">channel</a> <a href="/tags/defer/" style="font-size: 14px; color: #999">defer</a> <a href="/tags/golang/" style="font-size: 24px; color: #555">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go源码分析/" style="font-size: 16.5px; color: #888">go源码分析</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/innodb/" style="font-size: 14px; color: #999">innodb</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/map源码/" style="font-size: 14px; color: #999">map源码</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/nginx/" style="font-size: 16.5px; color: #888">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 16.5px; color: #888">nginx.conf</a> <a href="/tags/nginx优化/" style="font-size: 14px; color: #999">nginx优化</a> <a href="/tags/nginx实战总结/" style="font-size: 19px; color: #777">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/or/" style="font-size: 14px; color: #999">or</a> <a href="/tags/post的幂等性/" style="font-size: 14px; color: #999">post的幂等性</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/redis/" style="font-size: 16.5px; color: #888">redis</a> <a href="/tags/socket/" style="font-size: 14px; color: #999">socket</a> <a href="/tags/unsafe-Sizeof/" style="font-size: 14px; color: #999">unsafe.Sizeof</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/严蔚敏/" style="font-size: 14px; color: #999">严蔚敏</a> <a href="/tags/位运算/" style="font-size: 14px; color: #999">位运算</a> <a href="/tags/全表扫描/" style="font-size: 14px; color: #999">全表扫描</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/分布式id/" style="font-size: 14px; color: #999">分布式id</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/奇技淫巧/" style="font-size: 14px; color: #999">奇技淫巧</a> <a href="/tags/少卖/" style="font-size: 14px; color: #999">少卖</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/技巧/" style="font-size: 14px; color: #999">技巧</a> <a href="/tags/数据一致性/" style="font-size: 14px; color: #999">数据一致性</a> <a href="/tags/数据库允许空值/" style="font-size: 14px; color: #999">数据库允许空值</a> <a href="/tags/数据结构/" style="font-size: 19px; color: #777">数据结构</a> <a href="/tags/有序链表/" style="font-size: 14px; color: #999">有序链表</a> <a href="/tags/架构/" style="font-size: 21.5px; color: #666">架构</a> <a href="/tags/百度uid-generator/" style="font-size: 14px; color: #999">百度uid-generator</a> <a href="/tags/秒杀系统/" style="font-size: 14px; color: #999">秒杀系统</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/索引下推/" style="font-size: 14px; color: #999">索引下推</a> <a href="/tags/缓存/" style="font-size: 14px; color: #999">缓存</a> <a href="/tags/缓存中的“坑”/" style="font-size: 14px; color: #999">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/美团left/" style="font-size: 14px; color: #999">美团left</a> <a href="/tags/自适应哈希索引/" style="font-size: 14px; color: #999">自适应哈希索引</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/订单重复提交/" style="font-size: 14px; color: #999">订单重复提交</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/超卖/" style="font-size: 14px; color: #999">超卖</a> <a href="/tags/跳跃表/" style="font-size: 14px; color: #999">跳跃表</a> <a href="/tags/配置文件/" style="font-size: 16.5px; color: #888">配置文件</a> <a href="/tags/高并发/" style="font-size: 16.5px; color: #888">高并发</a>
+      <a href="/tags/996/" style="font-size: 14px; color: #999">996</a> <a href="/tags/B树/" style="font-size: 14px; color: #999">B树</a> <a href="/tags/B树与B-树/" style="font-size: 14px; color: #999">B树与B+树</a> <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/HTTP2/" style="font-size: 14px; color: #999">HTTP2</a> <a href="/tags/InnoDB/" style="font-size: 14px; color: #999">InnoDB</a> <a href="/tags/MPG/" style="font-size: 16.5px; color: #888">MPG</a> <a href="/tags/MySQL/" style="font-size: 14px; color: #999">MySQL</a> <a href="/tags/Mysql/" style="font-size: 16.5px; color: #888">Mysql</a> <a href="/tags/Snowflake/" style="font-size: 14px; color: #999">Snowflake</a> <a href="/tags/binlog/" style="font-size: 14px; color: #999">binlog</a> <a href="/tags/go-mirco/" style="font-size: 14px; color: #999">go-mirco</a> <a href="/tags/golang/" style="font-size: 24px; color: #555">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go源码分析/" style="font-size: 14px; color: #999">go源码分析</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/httprouter/" style="font-size: 14px; color: #999">httprouter</a> <a href="/tags/innodb/" style="font-size: 16.5px; color: #888">innodb</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/map源码/" style="font-size: 14px; color: #999">map源码</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/nginx/" style="font-size: 16.5px; color: #888">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 14px; color: #999">nginx.conf</a> <a href="/tags/nginx实战总结/" style="font-size: 16.5px; color: #888">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/or/" style="font-size: 14px; color: #999">or</a> <a href="/tags/post的幂等性/" style="font-size: 14px; color: #999">post的幂等性</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/redo-log/" style="font-size: 14px; color: #999">redo log</a> <a href="/tags/shell/" style="font-size: 14px; color: #999">shell</a> <a href="/tags/sync-Pool/" style="font-size: 14px; color: #999">sync.Pool</a> <a href="/tags/unsafe-Sizeof/" style="font-size: 14px; color: #999">unsafe.Sizeof</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/严蔚敏/" style="font-size: 14px; color: #999">严蔚敏</a> <a href="/tags/二阶段提交/" style="font-size: 14px; color: #999">二阶段提交</a> <a href="/tags/位运算/" style="font-size: 14px; color: #999">位运算</a> <a href="/tags/全表扫描/" style="font-size: 14px; color: #999">全表扫描</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/分布式id/" style="font-size: 14px; color: #999">分布式id</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/前缀树/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/奇技淫巧/" style="font-size: 14px; color: #999">奇技淫巧</a> <a href="/tags/定时清理/" style="font-size: 14px; color: #999">定时清理</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/待完成/" style="font-size: 14px; color: #999">待完成</a> <a href="/tags/微服务/" style="font-size: 14px; color: #999">微服务</a> <a href="/tags/技巧/" style="font-size: 14px; color: #999">技巧</a> <a href="/tags/数据一致性/" style="font-size: 14px; color: #999">数据一致性</a> <a href="/tags/数据库允许空值/" style="font-size: 14px; color: #999">数据库允许空值</a> <a href="/tags/数据结构/" style="font-size: 16.5px; color: #888">数据结构</a> <a href="/tags/有序链表/" style="font-size: 14px; color: #999">有序链表</a> <a href="/tags/架构/" style="font-size: 21.5px; color: #666">架构</a> <a href="/tags/源码分析/" style="font-size: 14px; color: #999">源码分析</a> <a href="/tags/百度uid-generator/" style="font-size: 14px; color: #999">百度uid-generator</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/索引下推/" style="font-size: 14px; color: #999">索引下推</a> <a href="/tags/缓存/" style="font-size: 14px; color: #999">缓存</a> <a href="/tags/缓存中的“坑”/" style="font-size: 14px; color: #999">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/美团left/" style="font-size: 14px; color: #999">美团left</a> <a href="/tags/自适应哈希索引/" style="font-size: 14px; color: #999">自适应哈希索引</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/订单重复提交/" style="font-size: 14px; color: #999">订单重复提交</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/跳跃表/" style="font-size: 14px; color: #999">跳跃表</a> <a href="/tags/配置文件/" style="font-size: 14px; color: #999">配置文件</a> <a href="/tags/高并发/" style="font-size: 14px; color: #999">高并发</a>
     </div>
   </section>
 

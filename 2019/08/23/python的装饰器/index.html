@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>python的装饰器 | tyltr技术窝</title>
+  
+  
+
+  
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9.9/css/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>tyltr技术窝</h1>
+
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          tyltr技术窝
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;示例
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/archives"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="archives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/about"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="about">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;关于
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+			<ul class='switcher h-list'>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/archives"
+                
+                  rel="nofollow"
+                
+                
+                id="archives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于我
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2019/08/23/python的装饰器/">
+        python的装饰器
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://sudozoyo.com" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>tylitianrui</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-23</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/python/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>python</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2><span id="1-zhuang-shi-qi-de-ying-yong">1. 装饰器的应用</span><a href="#1-zhuang-shi-qi-de-ying-yong" class="header-anchor">#</a></h2><p>python常用的装饰器：</p>
+<ul>
+<li>静态方法装饰器 <code>@staticmethod</code> </li>
+<li>类方法装饰器 <code>@classmethod</code> </li>
+<li><code>@property</code>  </li>
+<li><code>@click</code> 第三方装饰器，快速创建命令行。使用 <code>pip install click</code>进行安装  </li>
+</ul>
+<h3><span id="1-1-click-mo-kuai">1.1  click模块</span><a href="#1-1-click-mo-kuai" class="header-anchor">#</a></h3><p>click使用分为两步骤: </p>
+<ul>
+<li>1.使用 <code>@click.command()</code>装饰一个函数，使之成为命令行接口；</li>
+<li>2.使用 <code>@click.option()</code> 等装饰函数，为其添加命令行选项等。</li>
+</ul>
+<h4><span id="shi-li">示例</span><a href="#shi-li" class="header-anchor">#</a></h4><p>文件名： cmd.py  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="meta">@click.option('--count', default=1, help='Number of greetings.')</span></span><br><span class="line"><span class="meta">@click.option('--name', prompt='Your name', help='The person to greet.')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(count, name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(count):</span><br><span class="line">        click.echo(<span class="string">'Hello %s!'</span> % name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    hello()</span><br></pre></td></tr></table></figure>
+
+<h5><span id="huo-qu-ming-ling-xing-de-shuo-ming">获取命令行的说明</span><a href="#huo-qu-ming-ling-xing-de-shuo-ming" class="header-anchor">#</a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> help</span><br><span class="line">python  cmd.py  --help</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: cmd.py [OPTIONS]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --count INTEGER  Number of greetings.</span><br><span class="line">  --name TEXT      The person to greet.</span><br><span class="line">  --help           Show this message and exit.</span><br></pre></td></tr></table></figure>
+
+<h5><span id="yun-xing">运行</span><a href="#yun-xing" class="header-anchor">#</a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  cmd.py --count 2  --name tyltr</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello tyltr!</span><br><span class="line">Hello tyltr!</span><br></pre></td></tr></table></figure>
+
+<h2><span id="2-han-shu-zhuang-shi-qi">2.函数装饰器</span><a href="#2-han-shu-zhuang-shi-qi" class="header-anchor">#</a></h2><p>装饰器的原理：python中一切皆对象，函数也是对象。把函数(不妨称为函数A)作为作为另一个函数(不妨称为函数B)的参数，即可实现扩展B的功能  </p>
+<h3><span id="2-1-tong-ji-zhi-xing-shi-jian">2.1 统计执行时间</span><a href="#2-1-tong-ji-zhi-xing-shi-jian" class="header-anchor">#</a></h3><p>无参数的装饰器示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">statime</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    统计运行时间</span></span><br><span class="line"><span class="string">    :param func: 装饰的函数</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        res = func(*args, **kwargs)</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@statime</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> x+y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    a = add(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">    print(a)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.0026731491088867</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<h3><span id="2-2-xiao-yan-can-shu">2.2 校验参数</span><a href="#2-2-xiao-yan-can-shu" class="header-anchor">#</a></h3><p>有参数的装饰器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_args</span><span class="params">(type_)</span>:</span>  <span class="comment"># 带参数的装饰器，传入参数。对应</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span>  <span class="comment"># 传入函数引用</span></span><br><span class="line"><span class="meta">        @functools.wraps(func)  # “修复”函数名</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(args)</span>:</span>  <span class="comment"># 传入函数的参数</span></span><br><span class="line">            <span class="comment"># 判断类型</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> isinstance(args, type_):</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"类型有误"</span>)</span><br><span class="line">            <span class="keyword">return</span> func(args)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@check_args(int)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">div</span><span class="params">(args)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> args / <span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    t = div(<span class="number">4</span>)</span><br><span class="line">    print(t)</span><br></pre></td></tr></table></figure>
+
+<p>上例demo 可以实现参数的校验。  </p>
+<h2><span id="3-lei-zhuang-shi-qi">3. 类装饰器</span><a href="#3-lei-zhuang-shi-qi" class="header-anchor">#</a></h2><p>大部分装饰器都基于函数和闭包实现的。  </p>
+<h3><span id="3-1-lei-diao-yong">3.1 类调用</span><a href="#3-1-lei-diao-yong" class="header-anchor">#</a></h3><p>实现了魔法方法 <code>__call__</code> 的对象，可以像函数一样被调用。  </p>
+<h4><span id="shi-li">示例</span><a href="#shi-li" class="header-anchor">#</a></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'qqq'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    f = Foo()</span><br><span class="line">    <span class="keyword">if</span> callable(f):</span><br><span class="line">        f()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qqq</span><br></pre></td></tr></table></figure>
+
+<p><em>说明：</em><br>callable(obj) 判断是否是可调用的类型。如果可调用，则返回 <code>True</code>;否则 <code>False</code><br>可调用对象：函数、方法、实现了<code>__call__</code> 的对象。<br>示例：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#  函数，可调用</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">p</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"pppp"</span>)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(callable(p))</span><br></pre></td></tr></table></figure>
+
+<p>输出 ： <code>True</code></p>
+<h3><span id="3-2-shi-xian-lei-zhuang-shi-qi">3.2 实现类装饰器</span><a href="#3-2-shi-xian-lei-zhuang-shi-qi" class="header-anchor">#</a></h3><p>实现一个装饰器：在每次函数执行前都会等到 <code>duration</code> 秒。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DelayFunc</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, duration, func)</span>:</span></span><br><span class="line"></span><br><span class="line">        self.duration = duration</span><br><span class="line">        self.func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">f'Wait for <span class="subst">&#123;self.duration&#125;</span> seconds...'</span>)</span><br><span class="line">        time.sleep(self.duration)</span><br><span class="line">        <span class="keyword">return</span> self.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eager_call</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delay</span><span class="params">(duration)</span>:</span></span><br><span class="line">    <span class="string">"""装饰器：推迟某个函数的执行。同时提供 .eager_call 方法立即执行</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 此处为了避免定义额外函数，直接使用 functools.partial 帮助构造</span></span><br><span class="line">    <span class="comment"># DelayFunc 实例</span></span><br><span class="line">    <span class="keyword">return</span> functools.partial(DelayFunc, duration)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@delay(duration=2)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这次调用将会延迟 2 秒</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 这次调用将会立即执行</span></span><br><span class="line">add.eager_call(<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-3-shi-yong-wrapt-mo-kuai-bian-xie-geng-bian-ping-de-zhuang-shi-qi">3.3 使用 wrapt 模块编写更扁平的装饰器</span><a href="#3-3-shi-yong-wrapt-mo-kuai-bian-xie-geng-bian-ping-de-zhuang-shi-qi" class="header-anchor">#</a></h3><p>在写装饰器时候，经常会遇到下面两类问题：</p>
+<ul>
+<li><p>装饰器需要传递参数，例如 2.2 所示。这类装饰器嵌套很多层，很容易’绕’晕了。</p>
+</li>
+<li><p>为函数编写的装饰器，无法直接用于类方法上</p>
+</li>
+</ul>
+<h4><span id="shi-li">示例</span><a href="#shi-li" class="header-anchor">#</a></h4><p>一个随机生成[min,max]之间的数字   </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randomint</span><span class="params">(min, max)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(func)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            num = random.randint(min, max)</span><br><span class="line">            <span class="keyword">return</span> func(num, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> wapper</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@randomint(1, 45)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">p</span><span class="params">(num)</span>:</span></span><br><span class="line">    print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p()</span><br><span class="line"><span class="comment"># 输出 23</span></span><br></pre></td></tr></table></figure>
+
+<p>这个示例多次嵌套，绕来绕去。。。。   </p>
+<p>而且不能用于类方法上   </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randomint</span><span class="params">(min, max)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(func)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wapper</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            num = random.randint(min, max)</span><br><span class="line">            <span class="keyword">return</span> func(num, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> wapper</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">    @randomint(1, 45)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">p</span><span class="params">(self, num)</span>:</span></span><br><span class="line">        print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">e = Example()</span><br><span class="line">e.p()</span><br><span class="line"><span class="comment"># 输出 &lt;__main__.Example object at 0x101e62908&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，需要有一个更好的方法解决这些问题。那就需要 <code>wrapt</code>。  </p>
+<p>上例可以改为  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> wrapt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randomint</span><span class="params">(min, max)</span>:</span></span><br><span class="line"><span class="meta">    @wrapt.decorator</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(wrapped, instance, args, kwargs)</span>:</span></span><br><span class="line">        num = random.randint(min, max)</span><br><span class="line">        <span class="keyword">return</span> wrapped(num, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">    @randomint(1, 45)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">p</span><span class="params">(self, num)</span>:</span></span><br><span class="line">        print(num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">e = Example()</span><br><span class="line">e.p()</span><br><span class="line"><span class="comment"># 输出 34</span></span><br></pre></td></tr></table></figure>
+
+<h4><span id="wrapt-shi-yong-shuo-ming">wrapt使用说明</span><a href="#wrapt-shi-yong-shuo-ming" class="header-anchor">#</a></h4><h5><span id="1-wu-can-shu-de-zhuang-shi-qi">1.无参数的装饰器</span><a href="#1-wu-can-shu-de-zhuang-shi-qi" class="header-anchor">#</a></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> wrapt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计执行时间的装饰器</span></span><br><span class="line"><span class="meta">@wrapt.decorator</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">statime</span><span class="params">(wrapped, instance, args, kwargs)</span>:</span></span><br><span class="line">    s = time.time()</span><br><span class="line">    res = wrapped(*args, **kwargs)</span><br><span class="line">    print(time.time() - s)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@statime</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    res = add(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    print(res)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出 3</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ol>
+<li><p>使用wrapt你只需要定义一个装饰器函数，但是函数签名是固定的，必须是(wrapped, instance, args, kwargs)   </p>
+</li>
+<li><p>第一个参数wrapped 表示被装饰的函数或类方法，说明：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 如果被装饰者为普通类方法，该值为类实例</span><br><span class="line"> 如果被装饰者为 classmethod 类方法，该值为类</span><br><span class="line">如果被装饰者为类/函数/静态方法，该值为 None</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二个参数instance是必须的，就算你不用它。当装饰器装饰在不同位置时它将得到不同的值，比如装饰在类实例方法时你可以拿到这个类实例。根据instance的值你能够更加灵活的调整你的装饰器。 </p>
+</li>
+<li><p>args和kwargs也是固定的，注意前面没有星号</p>
+</li>
+</ol>
+<h3><span id="pian-han-shu-partial">偏函数partial</span><a href="#pian-han-shu-partial" class="header-anchor">#</a></h3><p>在应用中，部分参数已经知晓，其他参数未知的情况下，传入已经知晓的参数创建一个实例。补齐其他参数后，即可运行这个新实例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, age, name, *args, **kwargs)</span>:</span></span><br><span class="line">        self.age = age</span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#  传入name，并创建新实例</span></span><br><span class="line">jingba = functools.partial(Dog, name=<span class="string">"jingba"</span>)</span><br><span class="line">print(jingba)</span><br><span class="line"><span class="comment">#  functools.partial(&lt;class '__main__.Dog'&gt;, name='jingba')</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用新实例，补齐参数</span></span><br><span class="line">d1 = jingba(age=<span class="number">1</span>)</span><br><span class="line">print(d1)</span><br><span class="line"><span class="comment"># &lt;__main__.Dog object at 0x104062860&gt;</span></span><br><span class="line"></span><br><span class="line">print(d1.name)</span><br><span class="line"><span class="comment"># jingba</span></span><br><span class="line">print(d1.age)</span><br><span class="line"><span class="comment"># 1</span></span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/python/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>python</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/装饰器/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>装饰器</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2019/09/03/为啥innodb的redolog是二阶段提交/" rel="prev" title="为啥innodb的redolog是二阶段提交">
+                                
+                                    为啥innodb的redolog是二阶段提交
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/innodb/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> innodb</a> <a class="tag" href="/tags/redo-log/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> redo log</a> <a class="tag" href="/tags/binlog/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> binlog</a> <a class="tag" href="/tags/二阶段提交/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 二阶段提交</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2019/07/26/redis缓存与mysql数据库的数据一致性解决方案/" rel="prev" title="redis缓存与mysql数据库的数据一致性解决方案">
+                                  
+                                      redis缓存与mysql数据库的数据一致性解决方案
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/redis/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> redis</a> <a class="tag" href="/tags/缓存/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 缓存</a> <a class="tag" href="/tags/Mysql/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> Mysql</a> <a class="tag" href="/tags/数据一致性/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 数据一致性</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'python的装饰器',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://pzklm3h5m.bkt.clouddn.com/timg.jpeg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:tylitianrui@126.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/tylitianrui"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">1. 装饰器的应用#</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">1.1  click模块#</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">示例#</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">获取命令行的说明#</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">运行#</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">2.函数装饰器#</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">2.1 统计执行时间#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">2.2 校验参数#</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text">3. 类装饰器#</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">3.1 类调用#</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">示例#</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">3.2 实现类装饰器#</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">3.3 使用 wrapt 模块编写更扁平的装饰器#</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">示例#</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text">wrapt使用说明#</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">1.无参数的装饰器#</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text">偏函数partial#</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/archives" href="/archives"
+          
+            rel="nofollow"
+          
+          
+          id="archives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于我
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/"
+    title="/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/MySQL/" href="/categories/MySQL/"><div class='name'>MySQL</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/nginx/" href="/categories/nginx/"><div class='name'>nginx</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/openresty/" href="/categories/openresty/"><div class='name'>openresty</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/python/" href="/categories/python/"><div class='name'>python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/个人总结/" href="/categories/个人总结/"><div class='name'>个人总结</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/分布式/" href="/categories/分布式/"><div class='name'>分布式</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/数据结构与算法/" href="/categories/数据结构与算法/"><div class='name'>数据结构与算法</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/杂谈/" href="/categories/杂谈/"><div class='name'>杂谈</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/架构/" href="/categories/架构/"><div class='name'>架构</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/案例分析/" href="/categories/案例分析/"><div class='name'>案例分析</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/网络/" href="/categories/网络/"><div class='name'>网络</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/"
+    title="/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/996/" style="font-size: 14px; color: #999">996</a> <a href="/tags/B树/" style="font-size: 14px; color: #999">B树</a> <a href="/tags/B树与B-树/" style="font-size: 14px; color: #999">B树与B+树</a> <a href="/tags/GC/" style="font-size: 16.5px; color: #888">GC</a> <a href="/tags/HTTP2/" style="font-size: 14px; color: #999">HTTP2</a> <a href="/tags/InnoDB/" style="font-size: 14px; color: #999">InnoDB</a> <a href="/tags/MPG/" style="font-size: 16.5px; color: #888">MPG</a> <a href="/tags/MySQL/" style="font-size: 14px; color: #999">MySQL</a> <a href="/tags/Mysql/" style="font-size: 16.5px; color: #888">Mysql</a> <a href="/tags/Snowflake/" style="font-size: 14px; color: #999">Snowflake</a> <a href="/tags/binlog/" style="font-size: 14px; color: #999">binlog</a> <a href="/tags/go-mirco/" style="font-size: 14px; color: #999">go-mirco</a> <a href="/tags/golang/" style="font-size: 24px; color: #555">golang</a> <a href="/tags/goroutine/" style="font-size: 14px; color: #999">goroutine</a> <a href="/tags/go源码分析/" style="font-size: 14px; color: #999">go源码分析</a> <a href="/tags/go调优/" style="font-size: 14px; color: #999">go调优</a> <a href="/tags/httprouter/" style="font-size: 14px; color: #999">httprouter</a> <a href="/tags/innodb/" style="font-size: 16.5px; color: #888">innodb</a> <a href="/tags/leecode/" style="font-size: 14px; color: #999">leecode</a> <a href="/tags/map源码/" style="font-size: 14px; color: #999">map源码</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/nginx/" style="font-size: 16.5px; color: #888">nginx</a> <a href="/tags/nginx-lua/" style="font-size: 14px; color: #999">nginx+lua</a> <a href="/tags/nginx-conf/" style="font-size: 14px; color: #999">nginx.conf</a> <a href="/tags/nginx实战总结/" style="font-size: 16.5px; color: #888">nginx实战总结</a> <a href="/tags/openresty/" style="font-size: 14px; color: #999">openresty</a> <a href="/tags/or/" style="font-size: 14px; color: #999">or</a> <a href="/tags/post的幂等性/" style="font-size: 14px; color: #999">post的幂等性</a> <a href="/tags/python/" style="font-size: 19px; color: #777">python</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/redo-log/" style="font-size: 14px; color: #999">redo log</a> <a href="/tags/shell/" style="font-size: 14px; color: #999">shell</a> <a href="/tags/sync-Pool/" style="font-size: 14px; color: #999">sync.Pool</a> <a href="/tags/unsafe-Sizeof/" style="font-size: 14px; color: #999">unsafe.Sizeof</a> <a href="/tags/xorm-reverse/" style="font-size: 14px; color: #999">xorm reverse</a> <a href="/tags/严蔚敏/" style="font-size: 14px; color: #999">严蔚敏</a> <a href="/tags/二阶段提交/" style="font-size: 14px; color: #999">二阶段提交</a> <a href="/tags/位运算/" style="font-size: 14px; color: #999">位运算</a> <a href="/tags/全表扫描/" style="font-size: 14px; color: #999">全表扫描</a> <a href="/tags/内存对齐/" style="font-size: 14px; color: #999">内存对齐</a> <a href="/tags/内存管理/" style="font-size: 16.5px; color: #888">内存管理</a> <a href="/tags/分布式id/" style="font-size: 14px; color: #999">分布式id</a> <a href="/tags/刷题/" style="font-size: 14px; color: #999">刷题</a> <a href="/tags/前缀树/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/剑指offer/" style="font-size: 14px; color: #999">剑指offer</a> <a href="/tags/垃圾回收/" style="font-size: 14px; color: #999">垃圾回收</a> <a href="/tags/奇技淫巧/" style="font-size: 14px; color: #999">奇技淫巧</a> <a href="/tags/定时清理/" style="font-size: 14px; color: #999">定时清理</a> <a href="/tags/平滑升级/" style="font-size: 14px; color: #999">平滑升级</a> <a href="/tags/开始/" style="font-size: 14px; color: #999">开始</a> <a href="/tags/待完成/" style="font-size: 14px; color: #999">待完成</a> <a href="/tags/微服务/" style="font-size: 14px; color: #999">微服务</a> <a href="/tags/技巧/" style="font-size: 14px; color: #999">技巧</a> <a href="/tags/数据一致性/" style="font-size: 14px; color: #999">数据一致性</a> <a href="/tags/数据库允许空值/" style="font-size: 14px; color: #999">数据库允许空值</a> <a href="/tags/数据结构/" style="font-size: 16.5px; color: #888">数据结构</a> <a href="/tags/有序链表/" style="font-size: 14px; color: #999">有序链表</a> <a href="/tags/架构/" style="font-size: 21.5px; color: #666">架构</a> <a href="/tags/源码分析/" style="font-size: 14px; color: #999">源码分析</a> <a href="/tags/百度uid-generator/" style="font-size: 14px; color: #999">百度uid-generator</a> <a href="/tags/算法/" style="font-size: 14px; color: #999">算法</a> <a href="/tags/索引下推/" style="font-size: 14px; color: #999">索引下推</a> <a href="/tags/缓存/" style="font-size: 14px; color: #999">缓存</a> <a href="/tags/缓存中的“坑”/" style="font-size: 14px; color: #999">缓存中的“坑”</a> <a href="/tags/缓存击穿/" style="font-size: 14px; color: #999">缓存击穿</a> <a href="/tags/网络/" style="font-size: 14px; color: #999">网络</a> <a href="/tags/美团left/" style="font-size: 14px; color: #999">美团left</a> <a href="/tags/自适应哈希索引/" style="font-size: 14px; color: #999">自适应哈希索引</a> <a href="/tags/装饰器/" style="font-size: 14px; color: #999">装饰器</a> <a href="/tags/解析缓存/" style="font-size: 14px; color: #999">解析缓存</a> <a href="/tags/订单重复提交/" style="font-size: 14px; color: #999">订单重复提交</a> <a href="/tags/记忆/" style="font-size: 14px; color: #999">记忆</a> <a href="/tags/调度/" style="font-size: 14px; color: #999">调度</a> <a href="/tags/跳跃表/" style="font-size: 14px; color: #999">跳跃表</a> <a href="/tags/配置文件/" style="font-size: 14px; color: #999">配置文件</a> <a href="/tags/高并发/" style="font-size: 14px; color: #999">高并发</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:tylitianrui@126.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/tylitianrui"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>power by <a href="https://hexo.io/">HEXO</a> </p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["http://pzklm3h5m.bkt.clouddn.com/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["http://pzklm3h5m.bkt.clouddn.com/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9/js/app.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.9/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
